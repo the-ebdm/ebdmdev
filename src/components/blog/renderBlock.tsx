@@ -75,7 +75,6 @@ export default function RenderNotionBlock({
   if (block === undefined) {
     return null;
   }
-  console.log(block.type)
   switch (block.type) {
     case "paragraph":
       return (
@@ -96,8 +95,6 @@ export default function RenderNotionBlock({
       );
 
     case "image":
-      console.log("Rendering image")
-      console.log(block)
       return (
         <div
           class="py-4"

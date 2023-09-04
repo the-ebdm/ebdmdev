@@ -3,23 +3,30 @@ import * as elements from "typed-html";
 import { BlogPost } from "src/db/schema";
 import Author from "./author";
 
-export default function List({ posts }: { posts: { id: number; title: string; }[] }) {
+export default function List({ posts }: { posts: any[] }) {
+  console.log(posts[0])
   return (
-    <div class="mt-4 space-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
+    <div style="view-transition-name: slide-it-left;">
       {posts.map((post) => (
-        <article class="flex max-w-xl flex-col items-start justify-between bg-white p-4 rounded-md">
+        <article class="flex max-w-xl flex-col items-start justify-between bg-white p-4 rounded-md border-b-8">
           <div class="flex items-center gap-x-4 text-xs">
             <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
             {/* <a href={`/blog/${post.id}`} class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a> */}
           </div>
           <div class="group relative">
             <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-              <a href={`/blog/${post.id}`}>
+              <a
+                hx-get={`/blog/${post.id}`}
+                hx-swap="innerHTML transition:true"
+                hx-target="#container"
+              >
                 <span class="absolute inset-0"></span>
-                {post.title}
+                {post.properties.Name.title[0].plain_text}
               </a>
             </h3>
-            <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel iusto corrupti dicta laboris incididunt.</p>
+            <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
+              {post.properties.Description.rich_text.length > 0 ? post.properties.Description.rich_text[0].plain_text : null}
+            </p>
           </div>
           <Author />
         </article>

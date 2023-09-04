@@ -7,6 +7,22 @@ const notion = new Client({
 
 const dbid = "3a58bc30-8715-46d4-814f-ed9f777b2a72"
 
+const properFetch = async ({ endpoint, body, gotOptions, headers: clientHeaders }: any) => {
+  const headers: any = {
+    ...clientHeaders,
+    ...gotOptions?.headers,
+    'Content-Type': 'application/json'
+  }
+
+  const url = `https://www.notion.so/api/v3/${endpoint}`
+
+  return await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(body),
+    headers
+  }).then(res => res.json())
+}
+
 const recordMapParser = (recordMap: any) => {
   const blocks = Object.keys(recordMap.block)
     .map((item) => recordMap.block[item])
@@ -27,9 +43,10 @@ const getPublishedArticles = async (sanitize: boolean = false) => {
   return sanitize ? results.map(item => sanitizePage(item)) : results;
 }
 
-const getPublishedArticlesWithBlocks = async () => {
+const getPublishedArticlesWithBlocks = async (sanitize: boolean = false) => {
   const client = new NotionAPI();
-  const results = await getPublishedArticles();
+  client.fetch = properFetch;
+  const results = await getPublishedArticles(sanitize);
   const pages = await Promise.all(
     results.map((item) => {
       return client.getPage(item.id).then((blocks) => {
@@ -41,28 +58,15 @@ const getPublishedArticlesWithBlocks = async () => {
     })
   );
 
-  return pages.map(item => sanitizePage(item));;
+  return sanitize ? pages.map(item => sanitizePage(item)) : pages;
 }
 
 const getPage = async (pageId: string, sanitize: boolean = false, withBlocks: boolean = false) => {
   const client = new NotionAPI({
     authToken: process.env.NOTION_TOKEN!
   });
-  client.fetch = async ({ endpoint, body, gotOptions, headers: clientHeaders }: any) => {
-    const headers: any = {
-      ...clientHeaders,
-      ...gotOptions?.headers,
-      'Content-Type': 'application/json'
-    }
+  client.fetch = properFetch;
 
-    const url = `https://www.notion.so/api/v3/${endpoint}`
-
-    return await fetch(url, {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers
-    }).then(res => res.json())
-  }
   const recordMap = await client.getPage(pageId);
   const page: any = await notion.pages.retrieve({ page_id: pageId });
 

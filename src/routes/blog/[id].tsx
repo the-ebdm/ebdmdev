@@ -10,20 +10,11 @@ import Post from "@components/blog/post";
 import { eq } from "drizzle-orm";
 import { getPage } from "src/lib/notion";
 
-export const get = async ({ set, html, params }: any) => {
-  const data: BlogPost[] = await db.select().from(blogPosts).where(eq(blogPosts.id, params.id));
-  const pageData = await getPage(data[0].notionId!, false, true);
-  const page = data[0];
-  page.blocks = pageData.blocks;
+export const get = async ({ html, params }: any) => {
+  const pageData = await getPage(params.id!, false, true);
   return html(
-    <Layout title="EBDM.DEV / Blog">
-      <div class="">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
-          <div class="mx-auto max-w-3xl">
-            <Post post={page} />
-          </div>
-        </div>
-      </div>
-    </Layout>
+    <div style="view-transition-name: slide-it-right;">
+      <Post post={pageData} />
+    </div>
   );
 }
