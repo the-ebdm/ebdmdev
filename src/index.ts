@@ -4,14 +4,11 @@ import { html } from "@elysiajs/html";
 import { cron } from '@elysiajs/cron';
 import { logger } from '@bogeychan/elysia-logger';
 import pretty from 'pino-pretty';
-import * as elements from "typed-html";
-import { blogPosts } from "./db/schema";
-import { eq } from "drizzle-orm";
-
-import { drizzle } from 'drizzle-orm/postgres-js';
-import { migrate } from 'drizzle-orm/postgres-js/migrator';
 
 import postgres from 'postgres';
+import { DrizzleConfig } from "drizzle-orm";
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
 
 const stream = pretty({
   colorize: true
@@ -21,7 +18,7 @@ const queryConnection = postgres(process.env.DATABASE_URL!);
 const migrationConnection = postgres(process.env.DATABASE_URL!);
 
 const migrationDb = drizzle(migrationConnection, { logger: false });
-await migrate(migrationDb, { migrationsFolder: './drizzle' });
+await migrate(migrationDb, { migrationsFolder: './migrations' });
 migrationConnection.end();
 
 export const db = drizzle(queryConnection);

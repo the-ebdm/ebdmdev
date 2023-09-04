@@ -6,7 +6,7 @@
     "db:push": "bunx drizzle-kit push:pg",
     "db:studio": "bunx drizzle-kit studio",
     "db:generate-migration": "bunx drizzle-kit generate:pg --schema=./src/db/schema.ts --out=./migrations",
-    "dev": "concurrently \"bun run --watch src/index.tsx\" \"bun run tw:dev\"",
+    "dev": "concurrently \"bun run --watch src/index.ts\" \"bun run tw:dev\"",
     "tw": "bunx tailwindcss -i ./src/styles.css -o ./tailwind-gen/styles.css",
     "tw:dev": "bunx tailwindcss -i ./src/styles.css -o ./tailwind-gen/styles.css --watch",
     "deploy": "flyctl deploy"
