@@ -2,6 +2,7 @@ import { Elysia, t } from "elysia";
 import { autoroutes } from "elysia-autoroutes";
 import { html } from "@elysiajs/html";
 import { cron } from '@elysiajs/cron';
+import { staticPlugin } from '@elysiajs/static'
 import { logger } from '@bogeychan/elysia-logger';
 import pretty from 'pino-pretty';
 
@@ -32,7 +33,6 @@ const app = new Elysia()
     })
   )
   .use(autoroutes({ routesDir: './routes' }))
-  .get("/styles.css", () => Bun.file("./tailwind-gen/styles.css"))
   .use(
     cron({
       name: 'worker',
@@ -42,6 +42,8 @@ const app = new Elysia()
       }
     })
   )
+  .use(staticPlugin())
+  .get("/styles.css", () => Bun.file("./tailwind-gen/styles.css"))
   .listen(3000);
 
 console.log(
