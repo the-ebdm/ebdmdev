@@ -8,9 +8,9 @@ import Navigation from '../components/home/navigation.tsx'
 
 export default function Home() {
   return (
-    <Layout>
+    <Layout title="EBDM.DEV / Home">
       <div class="grid place-items-center h-screen content-center">
-        <div class="text-center text-gray-400">
+        <div class="text-center text-gray-500">
           <h1 class="text-6xl font-bold">EBDM.DEV</h1>
           <SocialIcons />
           <Navigation />
