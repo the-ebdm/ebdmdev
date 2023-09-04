@@ -8,3 +8,13 @@ export const todos = sqliteTable("todos", {
 });
 
 export type Todo = InferModel<typeof todos>;
+
+export const blogPosts = sqliteTable("blog_posts", {
+  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  published: integer("published", { mode: "boolean" }).notNull().default(false),
+  publishedAt: text("published_at").notNull().default(""),
+});
+
+export type BlogPost = InferModel<typeof blogPosts>;

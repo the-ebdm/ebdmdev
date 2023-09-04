@@ -2,26 +2,37 @@ import { Elysia, t } from "elysia";
 import { html } from "@elysiajs/html";
 import * as elements from "typed-html";
 import { db } from "./db";
-import { Todo, todos } from "./db/schema";
+import { Todo, todos, blogPosts } from "./db/schema";
 import { eq } from "drizzle-orm";
+
+import Home from "./pages/home.tsx";
+import Blog from "./pages/blog.tsx";
 
 const app = new Elysia()
   .use(html())
-  .get("/", ({ html }) =>
-    html(
-      <BaseHtml>
-        <body
-          class="flex w-full h-screen justify-center items-center"
-          hx-get="/todos"
-          hx-swap="innerHTML"
-          hx-trigger="load"
-        />
-      </BaseHtml>
-    )
-  )
+  .get("/", ({ html }) => html(<Home />))
+  .get("/blog", async ({ html }) => {
+    try {
+      const data = await db.select().from(blogPosts).all();
+      return html(<Blog posts={data} />);
+    } catch (error) {
+      console.error(error);
+      return html(<p>Something went wrong</p>);
+    }
+  })
+  .get("/blog/:id", async ({ params }) => {
+    const data = await db.select().from(blogPosts).all();
+    return <p>Blog post {params.id}</p>;
+  })
+
   .get("/todos", async () => {
-    const data = await db.select().from(todos).all();
-    return <TodoList todos={data} />;
+    try {
+      const data = await db.select().from(todos).all();
+      return <TodoList todos={data} />;
+    } catch (error) {
+      console.error(error);
+      return <p>Something went wrong</p>;
+    }
   })
   .post(
     "/todos/toggle/:id",
@@ -74,22 +85,6 @@ const app = new Elysia()
 console.log(
   `🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`
 );
-
-const BaseHtml = ({ children }: elements.Children) => `
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>THE BETH STACK</title>
-  <script src="https://unpkg.com/htmx.org@1.9.3"></script>
-  <script src="https://unpkg.com/hyperscript.org@0.9.9"></script>
-  <link href="/styles.css" rel="stylesheet">
-</head>
-
-${children}
-`;
 
 function TodoItem({ content, completed, id }: Todo) {
   return (
