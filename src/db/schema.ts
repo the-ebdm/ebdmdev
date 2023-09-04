@@ -10,3 +10,13 @@ export const blogPosts = pgTable("blog_posts", {
 });
 
 export type BlogPost = typeof blogPosts.$inferSelect;
+
+export const jobs = pgTable("jobs", {
+  id: serial('id').primaryKey(),
+  type: varchar("type").notNull(),
+  due: timestamp("due").notNull(),
+  completed: boolean("completed").notNull().default(false),
+  completedAt: timestamp("completed_at"),
+});
+
+export type Job = typeof jobs.$inferSelect;

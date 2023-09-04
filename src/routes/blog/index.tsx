@@ -30,5 +30,4 @@ export const get = async ({ set, html }: any) => {
     set.status = 500;
     return <Error error={error} />
   }
-
 }
