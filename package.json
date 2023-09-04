@@ -29,10 +29,12 @@
     "@elysiajs/html": "^0.5.2",
     "@elysiajs/static": "^0.6.0",
     "@libsql/client": "^0.3.2",
+    "@notionhq/client": "^2.2.13",
     "astro-icon": "^0.8.1",
     "drizzle-orm": "^0.28.5",
     "elysia": "^0.6.16",
     "elysia-autoroutes": "^0.2.2",
+    "notion-client": "^6.16.0",
     "pg": "^8.11.3",
     "pino-pretty": "^10.2.0",
     "postgres": "^3.3.5"

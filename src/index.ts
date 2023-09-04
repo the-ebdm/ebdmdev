@@ -7,7 +7,6 @@ import { logger } from '@bogeychan/elysia-logger';
 import pretty from 'pino-pretty';
 
 import postgres from 'postgres';
-import { DrizzleConfig } from "drizzle-orm";
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 
@@ -33,15 +32,15 @@ const app = new Elysia()
     })
   )
   .use(autoroutes({ routesDir: './routes' }))
-  .use(
-    cron({
-      name: 'worker',
-      pattern: '*/10 * * * * *',
-      run() {
-        console.log('Heartbeat')
-      }
-    })
-  )
+  // .use(
+  //   cron({
+  //     name: 'worker',
+  //     pattern: '*/10 * * * * *',
+  //     run() {
+
+  //     }
+  //   })
+  // )
   .use(staticPlugin())
   .get("/styles.css", () => Bun.file("./tailwind-gen/styles.css"))
   .listen(3000);
