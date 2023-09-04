@@ -25,6 +25,7 @@
     "@libsql/client": "^0.3.0",
     "astro-icon": "^0.8.1",
     "drizzle-orm": "^0.27.2",
-    "elysia": "^0.5.22"
+    "elysia": "^0.6.16",
+    "elysia-autoroutes": "^0.2.2"
   }
 }

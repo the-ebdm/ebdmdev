@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@elysiajs/html':
     specifier: ^0.5.2
-    version: 0.5.2(elysia@0.5.22)
+    version: 0.5.2(elysia@0.6.16)
   '@libsql/client':
     specifier: ^0.3.0
     version: 0.3.0
@@ -18,8 +18,11 @@ dependencies:
     specifier: ^0.27.2
     version: 0.27.2(@libsql/client@0.3.0)(bun-types@0.8.1)
   elysia:
-    specifier: ^0.5.22
-    version: 0.5.22
+    specifier: ^0.6.16
+    version: 0.6.16
+  elysia-autoroutes:
+    specifier: ^0.2.2
+    version: 0.2.2(elysia@0.6.16)
   typescript:
     specifier: ^5.0.0
     version: 5.0.2
@@ -62,12 +65,12 @@ packages:
     resolution: {integrity: sha512-cHgGezy2ojBFMaU6PZyBkksgFsg2CQ8IRN4mS7WdbA/Zv6xUK6fCNmpEWS/FftbxoA4B8Z0XGnuKsaTJEZsGgA==}
     dev: true
 
-  /@elysiajs/html@0.5.2(elysia@0.5.22):
+  /@elysiajs/html@0.5.2(elysia@0.6.16):
     resolution: {integrity: sha512-h9Or85fkr0VEVEI/ta1JU0ntZU5bDWlBSG0WTi/4bkVfYZnlMEY5bT98efmzxgb1ypQlqqMGQL5zWzicDSHFAw==}
     peerDependencies:
       elysia: '>= 0.5.12'
     dependencies:
-      elysia: 0.5.22
+      elysia: 0.6.16
     dev: false
 
   /@esbuild-kit/core-utils@3.2.2:
@@ -391,16 +394,6 @@ packages:
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
-    dev: false
-
-  /@types/lodash.clonedeep@4.5.7:
-    resolution: {integrity: sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==}
-    dependencies:
-      '@types/lodash': 4.14.197
-    dev: false
-
-  /@types/lodash@4.14.197:
-    resolution: {integrity: sha512-BMVOiWs0uNxHVlHBgzTIqJYmj+PgCo4euloGF+5m4okL3rEYzM2EEv78mw8zWSMM57dM7kVIgJ2QDvwHSoCI5g==}
     dev: false
 
   /@types/node-fetch@2.6.4:
@@ -888,8 +881,16 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /elysia@0.5.22:
-    resolution: {integrity: sha512-CEqgUdqvDB/cBKLna3SgBKOnrzi6U5tDqcvgzXFYwRm0qI1vRNte8AOVEW7FmwbEn5wSXcxn0l0LLm9M+lm2Vw==}
+  /elysia-autoroutes@0.2.2(elysia@0.6.16):
+    resolution: {integrity: sha512-KznuYS4Jy4hbXr2opE0/oRBMb28pbyevHpiGTYnzSqngSEoc7ucYqR1qbe8kYfx42SYbYZpFxC8SlaHlIDzEeQ==}
+    peerDependencies:
+      elysia: '>=0.6.0'
+    dependencies:
+      elysia: 0.6.16
+    dev: false
+
+  /elysia@0.6.16:
+    resolution: {integrity: sha512-XsWY3YqD/j+mH6b0psgPUhQse6e3ritOsRjRq5EGX/q4EcEn7urAr0kryISLJOshNaO2+G+u8+hWEt7RKscabQ==}
     peerDependencies:
       '@elysiajs/fn': '*'
       '@sinclair/typebox': '>= 0.28.10'
@@ -905,9 +906,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@types/lodash.clonedeep': 4.5.7
       fast-querystring: 1.1.2
-      lodash.clonedeep: 4.5.0
       memoirist: 0.1.4
     dev: false
 
@@ -1279,10 +1278,6 @@ packages:
   /lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
-
-  /lodash.clonedeep@4.5.0:
-    resolution: {integrity: sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==}
-    dev: false
 
   /lodash.throttle@4.1.1:
     resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}

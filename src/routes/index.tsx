@@ -1,12 +1,12 @@
 import { html } from "@elysiajs/html";
 import * as elements from "typed-html";
 
-import Layout from '../layouts/main.tsx'
+import Layout from '../layouts/main.js'
 
-import SocialIcons from '../components/home/social-icons.tsx'
-import Navigation from '../components/home/navigation.tsx'
+import SocialIcons from '../components/home/social-icons.js'
+import Navigation from '../components/home/navigation.js'
 
-export default function Home() {
+export const get = () => {
   return (
     <Layout title="EBDM.DEV / Home">
       <div class="grid place-items-center h-screen content-center">

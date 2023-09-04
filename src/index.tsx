@@ -1,25 +1,14 @@
 import { Elysia, t } from "elysia";
+import { autoroutes } from "elysia-autoroutes";
 import { html } from "@elysiajs/html";
 import * as elements from "typed-html";
 import { db } from "./db";
 import { Todo, todos, blogPosts } from "./db/schema";
 import { eq } from "drizzle-orm";
 
-import Home from "./pages/home.tsx";
-import Blog from "./pages/blog.tsx";
-
 const app = new Elysia()
   .use(html())
-  .get("/", ({ html }) => html(<Home />))
-  .get("/blog", async ({ html }) => {
-    try {
-      const data = await db.select().from(blogPosts).all();
-      return html(<Blog posts={data} />);
-    } catch (error) {
-      console.error(error);
-      return html(<p>Something went wrong</p>);
-    }
-  })
+  .use(autoroutes({ routesDir: './routes', extensions: ['.tsx', '.ts'] }))
   .get("/blog/:id", async ({ params }) => {
     const data = await db.select().from(blogPosts).all();
     return <p>Blog post {params.id}</p>;
