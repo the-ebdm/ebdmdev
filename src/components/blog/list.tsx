@@ -4,7 +4,6 @@ import { BlogPost } from "src/db/schema";
 import Author from "./author";
 
 export default function List({ posts }: { posts: any[] }) {
-  console.log(posts[0])
   return (
     <div style="view-transition-name: slide-it-left;">
       {posts.map((post) => (
