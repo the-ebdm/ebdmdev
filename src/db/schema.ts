@@ -1,20 +1,12 @@
 import { InferModel } from "drizzle-orm";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { pgTable, serial, text, varchar, boolean, timestamp } from "drizzle-orm/pg-core";
 
-export const todos = sqliteTable("todos", {
-  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
-  content: text("content").notNull(),
-  completed: integer("completed", { mode: "boolean" }).notNull().default(false),
-});
-
-export type Todo = InferModel<typeof todos>;
-
-export const blogPosts = sqliteTable("blog_posts", {
-  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+export const blogPosts = pgTable("blog_posts", {
+  id: serial('id').primaryKey(),
   title: text("title").notNull(),
-  content: text("content").notNull(),
-  published: integer("published", { mode: "boolean" }).notNull().default(false),
-  publishedAt: text("published_at").notNull().default(""),
+  content: varchar("content").notNull(),
+  published: boolean("published").notNull().default(false),
+  publishedAt: timestamp("published_at"),
 });
 
-export type BlogPost = InferModel<typeof blogPosts>;
+export type BlogPost = typeof blogPosts.$inferSelect;

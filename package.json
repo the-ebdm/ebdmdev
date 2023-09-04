@@ -3,14 +3,16 @@
   "module": "src/index.tsx",
   "type": "module",
   "scripts": {
-    "db:push": "bunx drizzle-kit push:sqlite",
+    "db:push": "bunx drizzle-kit push:pg",
     "db:studio": "bunx drizzle-kit studio",
     "dev": "concurrently \"bun run --watch src/index.tsx\" \"bun run tw:dev\"",
     "tw": "bunx tailwindcss -i ./src/styles.css -o ./tailwind-gen/styles.css",
-    "tw:dev": "bunx tailwindcss -i ./src/styles.css -o ./tailwind-gen/styles.css --watch"
+    "tw:dev": "bunx tailwindcss -i ./src/styles.css -o ./tailwind-gen/styles.css --watch",
+    "deploy": "flyctl deploy"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "latest",
+    "@types/pg": "^8.10.2",
     "bun-types": "latest",
     "concurrently": "^8.2.0",
     "drizzle-kit": "^0.19.13",
@@ -21,11 +23,15 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@bogeychan/elysia-logger": "^0.0.4",
     "@elysiajs/html": "^0.5.2",
-    "@libsql/client": "^0.3.0",
+    "@libsql/client": "^0.3.2",
     "astro-icon": "^0.8.1",
-    "drizzle-orm": "^0.27.2",
+    "drizzle-orm": "^0.28.5",
     "elysia": "^0.6.16",
-    "elysia-autoroutes": "^0.2.2"
+    "elysia-autoroutes": "^0.2.2",
+    "pg": "^8.11.3",
+    "pino-pretty": "^10.2.0",
+    "postgres": "^3.3.5"
   }
 }
