@@ -4,7 +4,7 @@ import { BlogPost } from "src/db/schema";
 
 export default function List({ posts }: { posts: { id: number; title: string; }[] }) {
   return (
-    <div class="mt-10 space-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
+    <div class="mt-4 space-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16">
       {posts.map((post) => (
         <article class="flex max-w-xl flex-col items-start justify-between bg-white p-4 rounded-md">
           <div class="flex items-center gap-x-4 text-xs">
@@ -21,15 +21,15 @@ export default function List({ posts }: { posts: { id: number; title: string; }[
             <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel iusto corrupti dicta laboris incididunt.</p>
           </div>
           <div class="relative mt-8 flex items-center gap-x-4">
-            <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-10 w-10 rounded-full bg-gray-50"></img>
+            {/* <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="h-10 w-10 rounded-full bg-gray-50"></img> */}
             <div class="text-sm leading-6">
               <p class="font-semibold text-gray-900">
                 <a href="#">
                   <span class="absolute inset-0"></span>
-                  Michael Foster
+                  Eric Muir
                 </a>
               </p>
-              <p class="text-gray-600">Co-Founder / CTO</p>
+              {/* <p class="text-gray-600">Co-Founder / CTO</p> */}
             </div>
           </div>
         </article>
