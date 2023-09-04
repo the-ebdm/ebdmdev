@@ -12,8 +12,8 @@ import { getPublishedArticlesWithBlocks } from "src/lib/notion";
 export const get = async ({ request, set, html }: any) => {
   const headers = request.headers as Headers;
   const posts = await getPublishedArticlesWithBlocks();
-  if (headers.get('hx-request')) {
-    console.log("HTMX REQUEST")
+  // If the request is from a browser, and the request is not boosted, return the list of posts.
+  if (headers.get('hx-request') && (headers.get('hx-boosted') === false || headers.get('hx-boosted') === null)) {
     return html(
       <List posts={posts} />
     )
