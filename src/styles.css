@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  div {
+    @apply text-gray-500;
+  }
   h1 {
     @apply text-2xl;
   }
@@ -10,7 +13,7 @@
     @apply text-xl;
   }
   a {
-    @apply text-gray-400 hover:text-gray-200 hover:cursor-pointer;
+    @apply text-gray-400 hover:text-gray-600 hover:cursor-pointer;
   }
 }
 
