@@ -1,5 +1,12 @@
 import * as elements from "typed-html";
 
+const escapeHtml = (unsafe: string) => unsafe
+  .replace(/&/g, "&amp;")
+  .replace(/</g, "&lt;")
+  .replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;")
+  .replace(/'/g, "&#039;");
+
 interface RichText {
   type: string;
   text: {
@@ -19,42 +26,37 @@ interface RichText {
 }
 
 export const RenderRichText = ({ text }: { text: RichText }) => {
-  if (!text.hasOwnProperty('href')) {
-    console.log(text)
-  }
-
+  const output = escapeHtml(text.plain_text);
   if (text.annotations.strikethrough) {
-    return <span class="line-through">{text.plain_text}</span>;
+    return <span class="line-through">{output}</span>;
   }
 
   if (text.annotations.bold) {
-    return <span class="font-bold">{text.plain_text}</span>;
+    return <span class="font-bold">{output}</span>;
   }
 
   if (text.annotations.italic) {
-    return <span class="italic">{text.plain_text}</span>;
+    return <span class="italic">{output}</span>;
   }
 
   if (text.text.link) {
     return (
       <a href={text.text.link} class="text-gray-600 hover:text-gray-900" target="_blank">
-        {text.plain_text}
+        {output}
       </a>
     );
   }
 
   if (text.annotations.code) {
-    return <span class="code">{text.plain_text}</span>;
+    return <span class="code">{output}</span>;
   }
 
-  return <span>{text.plain_text}</span>;
+  return output;
 };
 
 export const RenderAllRichText = ({ text, className = "inline" }: { text: RichText[], className?: string }) => {
   return (
-    <p class={className}>{text.map((item) => {
-      return RenderRichText({ text: item });
-    })}</p>
+    <p class={className}>{text.map(text => RenderRichText({ text })).join('')}</p>
   )
 };
 
@@ -95,12 +97,14 @@ export default function RenderNotionBlock({
       );
 
     case "image":
+      console.log(block)
+      const url = block.image.type === "file" ? block.image.file.url : block.image.external.url;
       return (
         <div
           class="py-4"
         >
           <div class="mx-auto">
-            <img src={block.image.external.url} class="mx-auto rounded-xl" />
+            <img src={url} class="mx-auto rounded-xl" />
             {
               block.image.caption.length > 0 ? (
                 <div class="pl-8 pt-2">
@@ -163,11 +167,12 @@ export default function RenderNotionBlock({
       );
 
     case "quote":
+      console.log(block)
       return (
         <blockquote
-          class="pl-5 py-4 my-4"
+          class="pl-5 py-4 my-4 whitespace-pre"
         >
-          {block?.properties?.title[0]}
+          <RenderAllRichText text={block.quote.rich_text} />
         </blockquote>
       );
 
@@ -205,6 +210,13 @@ export default function RenderNotionBlock({
         </ol>
       );
 
+    case "bulleted_list_item":
+      return (
+        <li class="list-disc list-inside">
+          <RenderAllRichText text={block.bulleted_list_item.rich_text} />
+        </li>
+      )
+
     case "numbered_list_item":
       if (blocks[index - 1].type !== "numbered_list_item") {
         return (
@@ -219,6 +231,28 @@ export default function RenderNotionBlock({
           </li>
         )
       }
+
+    case "bookmark":
+      return (
+        <a hx-boost="false" href={block.bookmark.url} target="_blank" class="relative block cursor-pointer rounded-lg border bg-white px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between">
+          <input type="radio" name="server-size" value="Hobby" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1" />
+          <span class="flex items-center">
+            <span class="flex flex-col text-sm">
+              <span id="server-size-0-label" class="font-medium text-gray-900">Hobby</span>
+              <span id="server-size-0-description-0" class="text-gray-500">
+                <span class="block sm:inline">8GB / 4 CPUs</span>
+                <span class="hidden sm:mx-1 sm:inline" aria-hidden="true">&middot;</span>
+                <span class="block sm:inline">160 GB SSD disk</span>
+              </span>
+            </span>
+          </span>
+          <span id="server-size-0-description-1" class="mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right">
+            <span class="font-medium text-gray-900">$40</span>
+            <span class="ml-1 text-gray-500 sm:ml-0">/mo</span>
+          </span>
+          <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
+        </a>
+      )
 
     default:
       // console.log(block)
