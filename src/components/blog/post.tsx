@@ -2,7 +2,7 @@ import { html } from "@elysiajs/html";
 import * as elements from "typed-html";
 import { BlogPost } from "src/db/schema";
 import Author from "./author";
-import RenderNotionBlock from "./renderBlock";
+import NotionBlock from "./notionBlock";
 
 export default function Post({ post }: { post: any }) {
   const blocks = post.blocks as any[];
@@ -30,7 +30,7 @@ export default function Post({ post }: { post: any }) {
       <Author />
       <div class="mt-3 max-w-2xl">
         {blocks.map((block: any, index: number) => (
-          <RenderNotionBlock block={block} blocks={blocks} index={index} />
+          <NotionBlock block={block} blocks={blocks} index={index} />
         ))}
       </div>
     </article>
