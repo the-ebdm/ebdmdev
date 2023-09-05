@@ -1,66 +1,7 @@
 import * as elements from "typed-html";
+import { RichText, MassRichText } from "./richText";
 
-const escapeHtml = (unsafe: string) => unsafe
-  .replace(/&/g, "&amp;")
-  .replace(/</g, "&lt;")
-  .replace(/>/g, "&gt;")
-  .replace(/"/g, "&quot;")
-  .replace(/'/g, "&#039;");
-
-interface RichText {
-  type: string;
-  text: {
-    content: string;
-    link: null;
-  };
-  annotations: {
-    bold: boolean;
-    italic: boolean;
-    strikethrough: boolean;
-    underline: boolean;
-    code: boolean;
-    color: string;
-  };
-  plain_text: string;
-  href: null;
-}
-
-export const RenderRichText = ({ text }: { text: RichText }) => {
-  const output = escapeHtml(text.plain_text);
-  if (text.annotations.strikethrough) {
-    return <span class="line-through">{output}</span>;
-  }
-
-  if (text.annotations.bold) {
-    return <span class="font-bold">{output}</span>;
-  }
-
-  if (text.annotations.italic) {
-    return <span class="italic">{output}</span>;
-  }
-
-  if (text.text.link) {
-    return (
-      <a href={text.text.link} class="text-gray-600 hover:text-gray-900" target="_blank">
-        {output}
-      </a>
-    );
-  }
-
-  if (text.annotations.code) {
-    return <span class="code">{output}</span>;
-  }
-
-  return output;
-};
-
-export const RenderAllRichText = ({ text, className = "inline" }: { text: RichText[], className?: string }) => {
-  return (
-    <p class={className}>{text.map(text => RenderRichText({ text })).join('')}</p>
-  )
-};
-
-export default function RenderNotionBlock({
+export default function NotionBlock({
   block,
   index = 0,
   blocks = [],
@@ -82,7 +23,7 @@ export default function RenderNotionBlock({
       return (
         <p class={`my-2 ${truncate ? 'truncate' : null}`}>
           {block?.paragraph?.rich_text.map((item: any) => {
-            return RenderRichText({ text: item });
+            return RichText({ text: item });
           })}
         </p>
       );
@@ -97,7 +38,6 @@ export default function RenderNotionBlock({
       );
 
     case "image":
-      console.log(block)
       const url = block.image.type === "file" ? block.image.file.url : block.image.external.url;
       return (
         <div
@@ -172,7 +112,7 @@ export default function RenderNotionBlock({
         <blockquote
           class="pl-5 py-4 my-4 whitespace-pre"
         >
-          <RenderAllRichText text={block.quote.rich_text} />
+          <MassRichText text={block.quote.rich_text} />
         </blockquote>
       );
 
@@ -191,9 +131,6 @@ export default function RenderNotionBlock({
           </p>
         </a>
       )
-    // if (block.parent_id === pageSlug) {
-    //   console.log(Object.keys(block.format.related_external_object_uris_to_instance_ids).length)
-    // }
 
     case "page":
       return null;
@@ -213,7 +150,7 @@ export default function RenderNotionBlock({
     case "bulleted_list_item":
       return (
         <li class="list-disc list-inside">
-          <RenderAllRichText text={block.bulleted_list_item.rich_text} />
+          <MassRichText text={block.bulleted_list_item.rich_text} />
         </li>
       )
 
@@ -221,34 +158,32 @@ export default function RenderNotionBlock({
       if (blocks[index - 1].type !== "numbered_list_item") {
         return (
           <li class="list-decimal list-inside" value="1">
-            <RenderAllRichText text={block.numbered_list_item.rich_text} />
+            <MassRichText text={block.numbered_list_item.rich_text} />
           </li>
         )
       } else {
         return (
           <li class="list-decimal list-inside">
-            <RenderAllRichText text={block.numbered_list_item.rich_text} />
+            <MassRichText text={block.numbered_list_item.rich_text} />
           </li>
         )
       }
 
     case "bookmark":
       return (
-        <a hx-boost="false" href={block.bookmark.url} target="_blank" class="relative block cursor-pointer rounded-lg border bg-white px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between">
-          <input type="radio" name="server-size" value="Hobby" class="sr-only" aria-labelledby="server-size-0-label" aria-describedby="server-size-0-description-0 server-size-0-description-1" />
-          <span class="flex items-center">
+        <a hx-boost="false" href={block.bookmark.url} target="_blank" class="relative block cursor-pointer rounded-lg border bg-white shadow-sm focus:outline-none sm:flex sm:justify-between">
+          <span class="mt-2 flex text-sm sm:mt-0 sm:flex-col sm:text-right">
+            <img src={block.bookmark.preview.image} class="rounded-l-lg w-48 my-auto" />
+          </span>
+          <span class="flex items-center px-6 py-4">
             <span class="flex flex-col text-sm">
-              <span id="server-size-0-label" class="font-medium text-gray-900">Hobby</span>
-              <span id="server-size-0-description-0" class="text-gray-500">
+              <span class="font-medium text-gray-900">{block.bookmark.preview.title}</span>
+              {/* <span class="text-gray-500">
                 <span class="block sm:inline">8GB / 4 CPUs</span>
                 <span class="hidden sm:mx-1 sm:inline" aria-hidden="true">&middot;</span>
                 <span class="block sm:inline">160 GB SSD disk</span>
-              </span>
+              </span> */}
             </span>
-          </span>
-          <span id="server-size-0-description-1" class="mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right">
-            <span class="font-medium text-gray-900">$40</span>
-            <span class="ml-1 text-gray-500 sm:ml-0">/mo</span>
           </span>
           <span class="pointer-events-none absolute -inset-px rounded-lg border-2" aria-hidden="true"></span>
         </a>
@@ -256,10 +191,13 @@ export default function RenderNotionBlock({
 
     default:
       // console.log(block)
-      return (
-        <p>
-          {block.type} - {block.id}
-        </p>
-      );
+      if (process.env.NODE_ENV === "development") {
+        return (
+          <p>
+            {block.type} - {block.id}
+          </p>
+        );
+      }
+      return null;
   }
 }
