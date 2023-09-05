@@ -59,7 +59,6 @@ export default function NotionBlock({
       );
 
     case "code":
-      console.log(block)
       const lang = block.code.language;
       if (lang === "Plain Text") {
         return <div class="my-6">
@@ -71,7 +70,6 @@ export default function NotionBlock({
       const highlight = hljs.highlight(block.code.rich_text[0].text.content, {
         language: lang,
       }, true);
-      console.log(highlight.value)
       return (
         <div class="my-6 rounded-xl overflow-hidden bg-gray-800 p-4">
           <div class="text-right">
