@@ -1,5 +1,6 @@
 import { NotionAPI } from "notion-client";
 import { Client } from "@notionhq/client"
+import { Link } from "./links";
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -62,24 +63,24 @@ const getPublishedArticlesWithBlocks = async (sanitize: boolean = false) => {
 }
 
 const getPage = async (pageId: string, sanitize: boolean = false, withBlocks: boolean = false) => {
-  const client = new NotionAPI({
-    authToken: process.env.NOTION_TOKEN!
-  });
+  const client = new NotionAPI({ authToken: process.env.NOTION_TOKEN! });
   client.fetch = properFetch;
 
   const recordMap = await client.getPage(pageId);
   const page: any = await notion.pages.retrieve({ page_id: pageId });
-
-  const blocks = await notion.blocks.children.list({ block_id: pageId }).then(blocks => {
-    return blocks;
-  })
+  const blocks = await notion.blocks.children.list({ block_id: pageId });
 
   page.recordMap = recordMapParser(recordMap);
   page.blocks = await Promise.all(blocks.results.map(async (block: any) => {
     if (block.type === "bookmark") {
-      const res = await fetch(`http://api.linkpreview.net/?key=${process.env.LINKPREVIEW_TOKEN}&q=${block.bookmark.url}`);
-      const data = await res.json();
-      block.bookmark.preview = data;
+      const link = new Link(block.bookmark.url);
+      if (await link.check()) {
+        block.bookmark.preview = link;
+      } else {
+        await link.fetchInfo();
+        block.bookmark.preview = link;
+        await link.save();
+      }
     }
     return block;
   }));
