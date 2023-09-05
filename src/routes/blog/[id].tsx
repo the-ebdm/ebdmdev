@@ -25,7 +25,7 @@ export const get = async ({ html, set, request, params }: any) => {
         </div>
       </BlogLayout>
     )
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     set.status = 500;
     return <Error error={error} />
