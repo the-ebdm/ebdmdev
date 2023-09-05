@@ -18,6 +18,7 @@ export default function List({ posts }: { posts: any[] }) {
                 hx-get={`/blog/${post.id}`}
                 hx-swap="innerHTML transition:true"
                 hx-target="#container"
+                hx-push-url="true"
               >
                 <span class="absolute inset-0"></span>
                 {post.properties.Name.title[0].plain_text}

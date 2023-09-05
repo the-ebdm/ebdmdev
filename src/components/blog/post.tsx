@@ -13,6 +13,7 @@ export default function Post({ post }: { post: any }) {
           hx-get={`/blog`}
           hx-swap="innerHTML transition:true"
           hx-target="#container"
+          hx-push-url="true"
         >Home</a>
         <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
         {/* <a href={`/blog/${post.id}`} class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a> */}
@@ -27,7 +28,7 @@ export default function Post({ post }: { post: any }) {
         {/* <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post}</p> */}
       </div>
       <Author />
-      <div class="mt-10 max-w-2xl">
+      <div class="mt-3 max-w-2xl">
         {blocks.map((block: any, index: number) => (
           <RenderNotionBlock block={block} blocks={blocks} index={index} />
         ))}
