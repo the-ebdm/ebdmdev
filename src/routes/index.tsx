@@ -1,5 +1,4 @@
-import { html } from "@elysiajs/html";
-import * as elements from "typed-html";
+import html from '@kitajs/html'
 
 import Layout from '../layouts/main.js'
 

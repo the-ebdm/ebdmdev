@@ -1,4 +1,4 @@
-import * as elements from "typed-html";
+import html from '@kitajs/html'
 import { RichText, MassRichText } from "./richText";
 
 export default function NotionBlock({

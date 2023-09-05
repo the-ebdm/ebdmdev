@@ -1,5 +1,4 @@
-import { html } from "@elysiajs/html";
-import * as elements from "typed-html";
+import html from '@kitajs/html'
 
 import BlogLayout from '@layouts/blog'
 import Error from '@components/error'
@@ -7,18 +6,18 @@ import Post from "@components/blog/post";
 import { getPage } from "src/lib/notion";
 import { isHTMX } from "src/lib/html";
 
-export const get = async ({ html, set, request, params }: any) => {
+export const get = async ({ set, request, params }: any) => {
   const headers = request.headers as Headers;
   const pageData = await getPage(params.id!, false, true);
   try {
     if (isHTMX(headers)) {
-      return html(
+      return (
         <div style="view-transition-name: slide-it-right;">
           <Post post={pageData} />
         </div>
       )
     }
-    return html(
+    return (
       <BlogLayout>
         <div style="view-transition-name: slide-it-right;">
           <Post post={pageData} />

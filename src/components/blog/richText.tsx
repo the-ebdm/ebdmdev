@@ -1,4 +1,4 @@
-import * as elements from "typed-html";
+import html from '@kitajs/html'
 
 const escapeHtml = (unsafe: string) => unsafe
   .replace(/&/g, "&amp;")

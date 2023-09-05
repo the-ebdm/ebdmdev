@@ -1,8 +1,4 @@
-import { html } from "@elysiajs/html";
-import * as elements from "typed-html";
-
-import { db } from "../../index";
-import { blogPosts, BlogPost } from "../../db/schema";
+import html from '@kitajs/html'
 
 import BlogLayout from "@layouts/blog";
 import Error from '@components/error'
@@ -10,17 +6,17 @@ import List from "@components/blog/list";
 import { getPublishedArticlesWithBlocks } from "src/lib/notion";
 import { isHTMX } from "src/lib/html";
 
-export const get = async ({ request, set, html }: any) => {
+export const get = async ({ request, set }: any) => {
   const headers = request.headers as Headers;
   const posts = await getPublishedArticlesWithBlocks();
   // If the request is from a browser, and the request is not boosted, return the list of posts.
   try {
     if (isHTMX(headers)) {
-      return html(
+      return (
         <List posts={posts} />
       )
     }
-    return html(
+    return (
       <BlogLayout>
         <List posts={posts} />
       </BlogLayout>
@@ -28,6 +24,6 @@ export const get = async ({ request, set, html }: any) => {
   } catch (error) {
     console.error(error);
     set.status = 500;
-    return <Error error={error} />
+    return (<Error error={error} />)
   }
 }

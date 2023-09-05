@@ -1,3 +1,4 @@
+import html from '@kitajs/html'
 import { Attributes } from "typed-html"
 
 const BaseHtml = ({ children, ...attributes }: Attributes) => {

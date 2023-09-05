@@ -1,10 +1,8 @@
-import { html } from "@elysiajs/html";
-import * as elements from "typed-html";
+import html from '@kitajs/html'
 import { BlogPost } from "src/db/schema";
 import Author from "./author";
 
 export default function List({ posts }: { posts: any[] }) {
-  console.log(posts[0])
   return (
     <div style="view-transition-name: slide-it-left;">
       {posts.map((post) => {

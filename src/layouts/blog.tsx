@@ -1,7 +1,7 @@
-import * as elements from "typed-html";
+import html from '@kitajs/html'
 import BaseHtml from "./main";
 
-export default function Blog({ children }: elements.Attributes) {
+export default function Blog({ children }: any) {
   return (
     <BaseHtml title="EBDM.DEV / Blog">
       <div class="py-12">

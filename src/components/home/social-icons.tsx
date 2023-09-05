@@ -1,3 +1,5 @@
+import html from '@kitajs/html'
+
 const socialLinks = [
   {
     link: 'https://linkedin.com/in/ebdm',
@@ -18,13 +20,13 @@ const socialLinks = [
 ]
 
 export default function SocialIcons() {
-  return `
+  return (
     <div class="text-default flex justify-between px-4 py-2">
-      ${socialLinks.map(link => `
+      {socialLinks.map(link => `
         <a href=${link.link}>
           <span class="iconify-inline" data-icon="${link.icon}"></span>
         </a>
       `).join('')}
     </div>
-  `
+  )
 }

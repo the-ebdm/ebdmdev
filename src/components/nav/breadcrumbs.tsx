@@ -1,4 +1,4 @@
-import * as elements from "typed-html";
+import html from '@kitajs/html'
 
 export default function Breadcrumbs({ breadcrumbs }: { breadcrumbs: any[] }) {
   return (

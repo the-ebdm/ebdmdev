@@ -1,5 +1,4 @@
-import { html } from "@elysiajs/html";
-import * as elements from "typed-html";
+import html from '@kitajs/html'
 import { BlogPost } from "src/db/schema";
 import Author from "./author";
 import NotionBlock from "./notionBlock";
