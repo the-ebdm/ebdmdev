@@ -7,7 +7,7 @@ const notion = new Client({
 
 const dbid = "3a58bc30-8715-46d4-814f-ed9f777b2a72"
 
-const properFetch = async ({ endpoint, body, gotOptions, headers: clientHeaders }: any) => {
+const properFetch = async <T>({ endpoint, body, gotOptions, headers: clientHeaders }: any): Promise<T> => {
   const headers: any = {
     ...clientHeaders,
     ...gotOptions?.headers,
