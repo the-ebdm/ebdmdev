@@ -1,19 +1,5 @@
 import { pgTable, serial, text, varchar, boolean, timestamp, json } from "drizzle-orm/pg-core";
 
-export const blogPosts = pgTable("blog_posts", {
-  id: serial('id').primaryKey(),
-  title: text("title").notNull(),
-  description: text("description"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-  published: boolean("published").notNull().default(false),
-  publishedAt: timestamp("published_at"),
-  notionId: varchar("notion_id"),
-  blocks: json("blocks").$type<any[]>(),
-});
-
-export type BlogPost = typeof blogPosts.$inferSelect;
-
 export const tags = pgTable("tags", {
   id: serial('id').primaryKey(),
   notionId: varchar("notion_id"),
@@ -32,3 +18,14 @@ export const jobs = pgTable("jobs", {
 });
 
 export type Job = typeof jobs.$inferSelect;
+
+export const links = pgTable("links", {
+  id: serial('id').primaryKey(),
+  url: varchar("url").notNull().unique(),
+  title: varchar("title").notNull(),
+  notionId: varchar("notion_id"),
+  description: text("description"),
+  image: varchar("image"),
+});
+
+export type Link = typeof links.$inferSelect;

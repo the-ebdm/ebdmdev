@@ -43,6 +43,13 @@
       "when": 1693926178790,
       "tag": "0005_spooky_goliath",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1693934373089,
+      "tag": "0006_careful_edwin_jarvis",
+      "breakpoints": true
     }
   ]
 }
