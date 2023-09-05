@@ -36,6 +36,8 @@
   }
 }
 
+/* View Transitions */
+
 @keyframes fade-in {
   from { opacity: 0; }
 }
@@ -78,4 +80,30 @@
 ::view-transition-new(slide-it-left) {
   animation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
   600ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-left;
+}
+
+/* Syntax Highlighting */
+
+.hljs-attr {
+  color: #8CBFF6;
+}
+
+.hljs-punctuation {
+  color: #a67f59;
+}
+
+.hljs-tag {
+  color: #9691EB;
+}
+
+.hljs-name {
+  color: #798CD4;
+}
+
+.hljs-string {
+  color: #9679D4;
+}
+
+.hljs-number {
+  color: #CB8CF6;
 }

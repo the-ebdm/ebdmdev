@@ -1,6 +1,8 @@
 import html from '@kitajs/html'
 import { RichText, MassRichText } from "./richText";
 
+import hljs from 'highlight.js';
+
 export default function NotionBlock({
   block,
   index = 0,
@@ -57,22 +59,27 @@ export default function NotionBlock({
       );
 
     case "code":
-      const lang = block.properties.language[0][0];
+      console.log(block)
+      const lang = block.code.language;
       if (lang === "Plain Text") {
         return <div class="my-6">
           <pre style="whiteSpace: 'pre-wrap'">
-            {block.properties.title[0][0]}
+            <MassRichText text={block.code.rich_text} />
           </pre>
         </div>
       }
-      // const highlight = hljs.highlight(block.properties.title[0][0], {
-      //   language: lang,
-      // }, true);
+      const highlight = hljs.highlight(block.code.rich_text[0].text.content, {
+        language: lang,
+      }, true);
+      console.log(highlight.value)
       return (
         <div class="my-6 rounded-xl overflow-hidden bg-gray-800 p-4">
+          <div class="text-right">
+            {lang}
+          </div>
           <pre class="m-4">
             <code>
-              {block.properties.title[0][0]}
+              {highlight.value}
             </code>
           </pre>
         </div>
