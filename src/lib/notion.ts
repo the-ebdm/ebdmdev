@@ -74,8 +74,15 @@ const getPage = async (pageId: string, sanitize: boolean = false, withBlocks: bo
     return blocks;
   })
 
-  page.blocks = blocks.results;
   page.recordMap = recordMapParser(recordMap);
+  page.blocks = await Promise.all(blocks.results.map(async (block: any) => {
+    if (block.type === "bookmark") {
+      const res = await fetch(`http://api.linkpreview.net/?key=${process.env.LINKPREVIEW_TOKEN}&q=${block.bookmark.url}`);
+      const data = await res.json();
+      block.bookmark.preview = data;
+    }
+    return block;
+  }));
 
   return sanitize ? sanitizePage(page) : page;
 }
