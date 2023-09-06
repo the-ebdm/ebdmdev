@@ -21,7 +21,7 @@ export const get = async ({ request, set }: any) => {
         <List posts={posts} />
       </BlogLayout>
     )
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     set.status = 500;
     return (<Error error={error} />)
