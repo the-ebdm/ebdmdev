@@ -1,10 +1,11 @@
 import html from '@kitajs/html'
 
-export default function Confirmation({ name }: { name: string }) {
+export default function Confirmation({ message, color = "green" }: { message: string, color?: string }) {
   return (
-    <div class="bg-green-300 m-3 p-3 rounded-md">
+    // bg-green-300 bg-red-300 bg-orange-300
+    <div class={`bg-${color}-300 m-3 p-3 rounded-md`}>
       <p class="text-center">
-        Welcome {name} - you're on the list!
+        {message}
       </p>
     </div>
   )
