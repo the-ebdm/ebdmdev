@@ -8,13 +8,8 @@ export default function Post({ post }: { post: any }) {
   return (
     <article class="flex max-w-xl flex-col items-start justify-between bg-white p-4 rounded-md">
       <div class="flex items-center gap-x-4 text-xs" hx-boost="true">
-        <a
-          hx-get={`/blog`}
-          hx-swap="innerHTML transition:true"
-          hx-target="#container"
-          hx-push-url="true"
-        >Home</a>
         <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
+        {/* TODO: Implement tags */}
         {/* <a href={`/blog/${post.id}`} class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">Marketing</a> */}
       </div>
       <div class="group relative">
@@ -35,7 +30,14 @@ export default function Post({ post }: { post: any }) {
       <Breadcrumbs breadcrumbs={[
         {
           name: 'Blog',
-          href: '/blog'
+          href: '/blog',
+          htmx: {
+            method: 'get',
+            path: `/blog`,
+            swap: "innerHTML transition:true",
+            target: "#container",
+            pushUrl: true
+          }
         },
         {
           name: post.properties.Name.title[0].plain_text,
