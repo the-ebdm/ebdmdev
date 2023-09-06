@@ -24,6 +24,11 @@ migrationConnection.end();
 export const db = drizzle(queryConnection);
 
 const app = new Elysia()
+  .derive(() => {
+    return {
+      requestTime: Date.now(),
+    }
+  })
   .use(html())
   .use(
     logger({
@@ -43,6 +48,11 @@ const app = new Elysia()
   // )
   .use(staticPlugin())
   .get("/styles.css", () => Bun.file("./tailwind-gen/styles.css"))
+  .onResponse(({ request, set, requestTime }) => {
+    const url = new URL(request.url, `http://${request.headers.host}`)
+    const rs = Date.now() - requestTime
+    console.log(`${url.pathname} - ${set.status} - ${rs}ms`)
+  })
   .listen(3000);
 
 console.log(
