@@ -29,3 +29,14 @@ export const links = pgTable("links", {
 });
 
 export type Link = typeof links.$inferSelect;
+
+export const mailingList = pgTable("mailing_list", {
+  id: serial('id').primaryKey(),
+  name: varchar("name").notNull(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  email: varchar("email").notNull().unique(),
+});
+
+export type MailingList = typeof mailingList.$inferSelect;
+export type MailingListInsert = typeof mailingList.$inferInsert;
