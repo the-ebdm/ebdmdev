@@ -5,7 +5,8 @@ interface Breadcrumb {
   href: string;
 }
 
-export default function Breadcrumbs({ breadcrumbs }: { breadcrumbs: Breadcrumb[] }) {
+export default function Breadcrumbs({ breadcrumbs, hideIfEmpty = false }: { breadcrumbs: Breadcrumb[], hideIfEmpty?: boolean }) {
+  if (hideIfEmpty && breadcrumbs.length === 0) return null;
   return (
     <nav class="flex absolute top-5 left-5" aria-label="Breadcrumb">
       <ol hx-boost="true" role="list" class="flex space-x-4 rounded-md bg-white px-6 shadow">
