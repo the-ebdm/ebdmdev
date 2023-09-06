@@ -1,7 +1,7 @@
 import html from '@kitajs/html'
-import { BlogPost } from "src/db/schema";
 import Author from "./author";
 import NotionBlock from "./notionBlock";
+import Breadcrumbs from '@components/nav/breadcrumbs';
 
 export default function Post({ post }: { post: any }) {
   const blocks = post.blocks as any[];
@@ -32,6 +32,16 @@ export default function Post({ post }: { post: any }) {
           <NotionBlock block={block} blocks={blocks} index={index} />
         ))}
       </div>
+      <Breadcrumbs breadcrumbs={[
+        {
+          name: 'Blog',
+          href: '/blog'
+        },
+        {
+          name: post.properties.Name.title[0].plain_text,
+          href: `/blog/${post.id}`
+        }
+      ]} />
     </article>
   )
 }

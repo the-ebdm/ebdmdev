@@ -1,6 +1,6 @@
 import html from '@kitajs/html'
-import { BlogPost } from "src/db/schema";
 import Author from "./author";
+import Breadcrumbs from '@components/nav/breadcrumbs';
 
 export default function List({ posts }: { posts: any[] }) {
   return (
@@ -33,6 +33,12 @@ export default function List({ posts }: { posts: any[] }) {
           </article>
         )
       })}
+      <Breadcrumbs breadcrumbs={[
+        {
+          name: 'Blog',
+          href: '/blog'
+        }
+      ]} />
     </div>
   )
 }
