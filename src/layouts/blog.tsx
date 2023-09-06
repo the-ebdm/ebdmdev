@@ -1,9 +1,9 @@
 import html from '@kitajs/html'
-import BaseHtml from "./main";
+import Layout from "./main";
 
 export default function Blog({ children }: any) {
   return (
-    <BaseHtml title="EBDM.DEV / Blog">
+    <Layout title="EBDM.DEV / Blog">
       <div class="py-12">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <div class="mx-auto max-w-2xl" >
@@ -15,6 +15,6 @@ export default function Blog({ children }: any) {
           </div>
         </div>
       </div>
-    </BaseHtml>
+    </Layout>
   )
 }
