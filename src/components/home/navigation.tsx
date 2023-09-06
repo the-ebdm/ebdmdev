@@ -1,5 +1,5 @@
 import html from '@kitajs/html'
-import MailingList from "../modals/mailing-list";
+import MailingList from "./mailing-list";
 
 export default function Navigation() {
   return (
