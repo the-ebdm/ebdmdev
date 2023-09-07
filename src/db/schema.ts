@@ -13,6 +13,7 @@ export const jobs = pgTable("jobs", {
   id: serial('id').primaryKey(),
   type: varchar("type").notNull(),
   due: timestamp("due").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
   completed: boolean("completed").notNull().default(false),
   completedAt: timestamp("completed_at"),
 });
@@ -40,3 +41,15 @@ export const mailingList = pgTable("mailing_list", {
 
 export type MailingList = typeof mailingList.$inferSelect;
 export type MailingListInsert = typeof mailingList.$inferInsert;
+
+export const visitors = pgTable("visitors", {
+  id: serial('id').primaryKey(),
+  token: varchar("token").notNull().unique(),
+  ip: varchar("ip").notNull(),
+  userAgent: varchar("user_agent").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  lastVisitedAt: timestamp("last_visited_at").notNull().defaultNow(),
+});
+
+export type Visitor = typeof visitors.$inferSelect;
+export type VisitorInsert = typeof visitors.$inferInsert;
