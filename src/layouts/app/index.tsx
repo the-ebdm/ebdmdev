@@ -6,8 +6,21 @@ import Search from './components/search';
 import MenuButton from './components/menu-button';
 import DesktopNavigation from './components/desktop-nav';
 import MobileNav from './components/mobile-nav';
+import { User } from '@clerk/clerk-sdk-node';
+import { NavigationItem } from '@types';
 
-export default function App({ children, title }: any) {
+export default function App({ children, title, user }: { children: any, title: string, user: User }) {
+  const navigationItems = [
+    {
+      name: 'Dashboard',
+      href: '/app'
+    },
+    {
+      name: 'Papers',
+      href: '/app/papers'
+    }
+  ] as NavigationItem[];
+
   return (
     <Layout title={title}>
       <div class="min-h-full">
@@ -15,14 +28,14 @@ export default function App({ children, title }: any) {
           <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <div class="relative flex items-center justify-center py-5 lg:justify-between">
               <Logo />
-              <UserPanel />
+              <UserPanel user={user} />
               <Search />
               <MenuButton />
             </div>
-            <DesktopNavigation />
+            <DesktopNavigation items={navigationItems} />
           </div>
 
-          <MobileNav />
+          <MobileNav user={user} />
         </header>
         <main class="-mt-24 pb-8">
           <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -33,8 +46,8 @@ export default function App({ children, title }: any) {
               <div class="grid grid-cols-1 gap-4 lg:col-span-2">
                 <section aria-labelledby="section-1-title">
                   <h2 class="sr-only" id="section-1-title">Section title</h2>
-                  <div class="overflow-hidden rounded-lg bg-white shadow">
-                    <div class="p-6">
+                  <div id="content-wrapper" class="overflow-hidden rounded-lg bg-white shadow">
+                    <div id="content" class="p-6">
                       {children}
                     </div>
                   </div>
@@ -57,10 +70,22 @@ export default function App({ children, title }: any) {
         </main>
         <footer>
           <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-            <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left"><span class="block sm:inline">&copy; 2021 Your Company, Inc.</span> <span class="block sm:inline">All rights reserved.</span></div>
+            <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left">
+              <span class="block sm:inline">&copy; {new Date().getFullYear()} EBDM</span>
+              <span> - </span>
+              <span class="block sm:inline">All rights reserved.</span>
+            </div>
           </div>
         </footer>
       </div>
+      <script
+        async
+        crossorigin="anonymous"
+        data-clerk-publishable-key={process.env.CLERK_PUB_KEY}
+        onload="window.Clerk.load()"
+        src={process.env.CLERK_URL}
+        type="text/javascript">
+      </script>
     </Layout>
   )
 }
