@@ -5,7 +5,7 @@ export const notificationIcon = `<svg class="h-6 w-6" fill="none" viewBox="0 0 2
 export default function UserPanel() {
   return (
     <div class="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
-      <button type="button" class="relative flex-shrink-0 rounded-full p-1 text-indigo-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+      <button type="button" class="relative flex-shrink-0 rounded-full p-1 text-primary-200 hover:bg-white hover:bg-opacity-10 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
         <span class="absolute -inset-1.5"></span>
         <span class="sr-only">View notifications</span>
         {notificationIcon}

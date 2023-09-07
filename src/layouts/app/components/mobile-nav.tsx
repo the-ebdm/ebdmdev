@@ -11,8 +11,11 @@ export default function MobileNav() {
       Leaving: "duration-150 ease-in"
       From: "opacity-100"
       To: "opacity-0" */}
-      <div class="fixed inset-0 z-20 bg-black bg-opacity-25" aria-hidden="true"></div>
-
+      <div
+        id="mobile-menu-overlay"
+        _="on every change toggle .hidden on me then toggle .block on me
+        on every click toggleMobileMenu()"
+        class="hidden fixed inset-0 z-20 bg-black bg-opacity-25" aria-hidden="true"></div>
       {/*
       Mobile menu, show/hide based on mobile menu state.
 
@@ -23,7 +26,10 @@ export default function MobileNav() {
       From: "opacity-100 scale-100"
       To: "opacity-0 scale-95"
       */}
-      <div class="absolute inset-x-0 top-0 z-30 mx-auto w-full max-w-3xl origin-top transform p-2 transition">
+      <div
+        id="mobile-menu"
+        _="on every change toggle .hidden on me then toggle .block on me"
+        class="hidden absolute inset-x-0 top-0 z-30 mx-auto w-full max-w-3xl origin-top transform p-2 transition">
         <div class="divide-y divide-gray-200 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
           <div class="pb-2 pt-3">
             <div class="flex items-center justify-between px-4">
@@ -31,7 +37,10 @@ export default function MobileNav() {
                 <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
               </div>
               <div class="-mr-2">
-                <button type="button" class="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                <button
+                  type="button"
+                  _="on every click toggleMobileMenu()"
+                  class="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary-500">
                   <span class="absolute -inset-0.5"></span>
                   <span class="sr-only">Close menu</span>
                   {`<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -57,7 +66,7 @@ export default function MobileNav() {
                 <div class="truncate text-base font-medium text-gray-800">Tom Cook</div>
                 <div class="truncate text-sm font-medium text-gray-500">tom@example.com</div>
               </div>
-              <button type="button" class="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <button type="button" class="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                 <span class="absolute -inset-1.5"></span>
                 <span class="sr-only">View notifications</span>
                 {`<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">

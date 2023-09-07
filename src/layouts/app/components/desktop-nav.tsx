@@ -6,12 +6,12 @@ export default function DesktopNavigation() {
       <div class="grid grid-cols-3 items-center gap-8">
         <div class="col-span-2">
           <nav class="flex space-x-4">
-            {/* <!-- Current: "text-white", Default: "text-indigo-100" --> */}
-            <a href="#" class="text-white rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10" aria-current="page">Home</a>
-            <a href="#" class="text-indigo-100 rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10">Profile</a>
-            <a href="#" class="text-indigo-100 rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10">Resources</a>
-            <a href="#" class="text-indigo-100 rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10">Company Directory</a>
-            <a href="#" class="text-indigo-100 rounded-md bg-white bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10">Openings</a>
+            {/* <!-- Current: "text-white", Default: "text-primary-100" --> */}
+            <a href="#" class="text-white rounded-md bg-white hover:text-gray-300 bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10" aria-current="page">Home</a>
+            <a href="#" class="text-primary-100 rounded-md bg-white hover:text-gray-300 bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10">Profile</a>
+            <a href="#" class="text-primary-100 rounded-md bg-white hover:text-gray-300 bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10">Resources</a>
+            <a href="#" class="text-primary-100 rounded-md bg-white hover:text-gray-300 bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10">Company Directory</a>
+            <a href="#" class="text-primary-100 rounded-md bg-white hover:text-gray-300 bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10">Openings</a>
           </nav>
         </div>
         <div>

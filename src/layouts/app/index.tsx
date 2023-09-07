@@ -11,7 +11,7 @@ export default function App({ children, title }: any) {
   return (
     <Layout title={title}>
       <div class="min-h-full">
-        <header class="bg-indigo-600 pb-24">
+        <header class="bg-primary-600 pb-24">
           <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
             <div class="relative flex items-center justify-center py-5 lg:justify-between">
               <Logo />
@@ -22,7 +22,6 @@ export default function App({ children, title }: any) {
             <DesktopNavigation />
           </div>
 
-          {/* <!-- Mobile menu, show/hide based on mobile menu state. --> */}
           <MobileNav />
         </header>
         <main class="-mt-24 pb-8">

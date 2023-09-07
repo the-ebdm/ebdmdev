@@ -1,6 +1,6 @@
 import html from '@kitajs/html'
 
-import Layout from '@layouts/main.js'
+import Layout from '@layouts/app'
 
 export const get = () => {
   return (
