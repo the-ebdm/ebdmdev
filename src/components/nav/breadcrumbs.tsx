@@ -1,23 +1,5 @@
 import html from '@kitajs/html'
-import HTMX from '@types';
-
-const example = {
-  name: 'Blog',
-  href: '/blog',
-  htmx: {
-    method: 'get',
-    path: `/blog`,
-    swap: "innerHTML transition:true",
-    target: "#container",
-    pushUrl: "true"
-  }
-}
-
-interface Breadcrumb {
-  name: string;
-  href: string;
-  htmx?: HTMX;
-}
+import { NavigationItem } from '@types';
 
 export default function Breadcrumbs({ breadcrumbs, hideIfEmpty = false }: { breadcrumbs: Breadcrumb[], hideIfEmpty?: boolean }) {
   if (hideIfEmpty && breadcrumbs.length === 0) return null;
@@ -34,7 +16,7 @@ export default function Breadcrumbs({ breadcrumbs, hideIfEmpty = false }: { brea
             </a>
           </div>
         </li>
-        {breadcrumbs.map((breadcrumb: Breadcrumb) => (
+        {breadcrumbs.map((breadcrumb: NavigationItem) => (
           <li class="flex">
             <div class="flex items-center">
               {`<svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
