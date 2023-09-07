@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@bogeychan/elysia-logger": "^0.0.4",
+    "@elysiajs/cookie": "^0.6.1",
     "@elysiajs/cron": "^0.6.0",
     "@elysiajs/html": "^0.5.2",
     "@elysiajs/static": "^0.6.0",

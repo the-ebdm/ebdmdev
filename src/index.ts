@@ -1,8 +1,13 @@
 import { Elysia, t } from "elysia";
 import { autoroutes } from "elysia-autoroutes";
-import { html } from "@elysiajs/html";
 import { cron } from '@elysiajs/cron';
+import { cookie } from '@elysiajs/cookie'
 import { staticPlugin } from '@elysiajs/static'
+
+import { html } from "@middleware/html";
+import { tracking } from '@middleware/tracking'
+import { timing } from "@middleware/timing";
+
 import { logger } from '@bogeychan/elysia-logger';
 import pretty from 'pino-pretty';
 
@@ -24,12 +29,10 @@ migrationConnection.end();
 export const db = drizzle(queryConnection);
 
 const app = new Elysia()
-  .derive(() => {
-    return {
-      requestTime: Date.now(),
-    }
-  })
+  .use(timing())
+  .use(cookie())
   .use(html())
+  .use(tracking())
   .use(
     logger({
       level: 'error',
@@ -49,7 +52,7 @@ const app = new Elysia()
   .use(staticPlugin())
   .get("/styles.css", () => Bun.file("./tailwind-gen/styles.css"))
   .onResponse(({ request, set, requestTime }) => {
-    const url = new URL(request.url, `http://${request.headers.host}`)
+    const url = new URL(request.url)
     const rs = Date.now() - requestTime
     console.log(`${url.pathname} - ${set.status} - ${rs}ms`)
   })
