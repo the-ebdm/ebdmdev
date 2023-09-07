@@ -51,11 +51,6 @@ const app = new Elysia()
   // )
   .use(staticPlugin())
   .get("/styles.css", () => Bun.file("./tailwind-gen/styles.css"))
-  .onResponse(({ request, set, requestTime }) => {
-    const url = new URL(request.url)
-    const rs = Date.now() - requestTime
-    console.log(`${url.pathname} - ${set.status} - ${rs}ms`)
-  })
   .listen(3000);
 
 console.log(
