@@ -4,7 +4,7 @@ import Layout from "./main";
 export default function Blog({ children }: any) {
   return (
     <Layout title="EBDM.DEV / Blog">
-      <div class="py-12">
+      <div class="py-20 2xl:py-12">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <div class="mx-auto max-w-2xl" >
             <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">EBDM.DEV / Blog</h2>
