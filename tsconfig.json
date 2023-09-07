@@ -24,7 +24,9 @@
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       "@db/*": ["src/db/*"],
-      "@types": ["src/types.ts"]
+      "@types": ["src/types.ts"],
+      "@middleware/*": ["src/middleware/*"],
+      "@lib/*": ["src/lib/*"],
     }
   }
 }
