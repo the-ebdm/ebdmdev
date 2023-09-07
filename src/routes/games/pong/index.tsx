@@ -2,7 +2,7 @@ import html from '@kitajs/html'
 
 import Layout from "@layouts/main";
 import Error from '@components/error'
-import { isHTMX } from "src/lib/html";
+import { isHTMX } from "@lib/html";
 import SpeedControl from './speedControl';
 
 export const get = async ({ request, set }: any) => {

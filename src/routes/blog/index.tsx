@@ -3,8 +3,8 @@ import html from '@kitajs/html'
 import BlogLayout from "@layouts/blog";
 import Error from '@components/error'
 import List from "@components/blog/list";
-import { getPublishedArticles } from "src/lib/notion";
-import { isHTMX } from "src/lib/html";
+import { getPublishedArticles } from "@lib/notion";
+import { isHTMX } from "@lib/html";
 
 export const get = async ({ request, set }: any) => {
   const headers = request.headers as Headers;

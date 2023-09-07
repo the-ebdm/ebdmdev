@@ -1,10 +1,10 @@
 import html from '@kitajs/html'
-import { isHTMX } from 'src/lib/html'
+import { isHTMX } from '@lib/html'
 import Confirmation from '@components/home/confirmation'
 
 import { db } from '../index';
 import { eq } from 'drizzle-orm';
-import { mailingList, MailingListInsert } from 'src/db/schema';
+import { mailingList, MailingListInsert } from '@db/schema';
 
 export const post = async ({ body, request }: any) => {
   console.log(body)
