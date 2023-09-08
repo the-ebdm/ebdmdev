@@ -9,7 +9,20 @@ export default function DesktopNavigation({ items }: { items: NavigationItem[] }
           <nav class="flex space-x-4">
             {/* <!-- Current: "text-white", Default: "text-primary-100" --> */}
             {items.map((item) => (
-              <a href={item.href} class="text-white rounded-md bg-white hover:text-gray-300 bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10" aria-current="page">{item.name}</a>
+              <>
+                {`<a
+                href=${item.href}
+                aria-current="page"
+                style="max-width: 10rem;"
+                class="text-white rounded-md bg-white hover:text-gray-300 bg-opacity-0 px-3 py-2 text-sm font-medium hover:bg-opacity-10"
+                ${item.htmx ? `hx-${item.htmx.method}="${item.htmx.path}"` : ''}
+                ${item.htmx?.swap ? `hx-swap="${item.htmx.swap}"` : ''}}
+                ${item.htmx?.target ? `hx-target="${item.htmx.target}"` : ''}}
+                ${item.htmx?.pushUrl ? `hx-push-url="true"` : ''}}
+                >
+                ${item.name}
+              </a>`}
+              </>
             ))}
           </nav>
         </div>

@@ -1,7 +1,7 @@
 import html from '@kitajs/html'
 import { NavigationItem } from '@types';
 
-export default function Breadcrumbs({ breadcrumbs, hideIfEmpty = false }: { breadcrumbs: Breadcrumb[], hideIfEmpty?: boolean }) {
+export default function Breadcrumbs({ breadcrumbs, hideIfEmpty = false }: { breadcrumbs: NavigationItem[], hideIfEmpty?: boolean }) {
   if (hideIfEmpty && breadcrumbs.length === 0) return null;
   return (
     <nav class="flex absolute top-5 left-5" aria-label="Breadcrumb">

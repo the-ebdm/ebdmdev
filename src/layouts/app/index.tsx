@@ -17,7 +17,13 @@ export default function App({ children, title, user }: { children: any, title: s
     },
     {
       name: 'Papers',
-      href: '/app/papers'
+      htmx: {
+        method: 'get',
+        path: '/app/papers',
+        target: '#content',
+        swap: 'innerHTML',
+        pushUrl: true
+      }
     }
   ] as NavigationItem[];
 
