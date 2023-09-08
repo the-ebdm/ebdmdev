@@ -1,0 +1,1 @@
+ALTER TABLE "papers" ADD COLUMN "user_id" varchar;

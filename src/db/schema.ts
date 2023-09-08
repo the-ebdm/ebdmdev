@@ -1,4 +1,4 @@
-import { pgTable, serial, text, varchar, boolean, timestamp, json } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, varchar, boolean, timestamp, json, integer } from "drizzle-orm/pg-core";
 
 export const tags = pgTable("tags", {
   id: serial('id').primaryKey(),
@@ -53,3 +53,34 @@ export const visitors = pgTable("visitors", {
 
 export type Visitor = typeof visitors.$inferSelect;
 export type VisitorInsert = typeof visitors.$inferInsert;
+
+export const files = pgTable("files", {
+  id: serial('id').primaryKey(),
+  userId: varchar("user_id"),
+  name: varchar("name").notNull(),
+  path: varchar("path").notNull(),
+  size: integer("size").notNull(),
+  type: varchar("type").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const papers = pgTable("papers", {
+  id: serial('id').primaryKey(),
+  fileId: integer("file_id"),
+  userId: varchar("user_id"),
+  title: varchar("title"),
+  authors: json("authors"),
+  abstract: text("abstract"),
+  year: varchar("year"),
+  tags: json("tags"),
+  url: varchar("url"),
+  doi: varchar("doi"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+})
+
+export type File = typeof files.$inferSelect;
+export type FileInsert = typeof files.$inferInsert;
+export type Paper = typeof papers.$inferSelect;
+export type PaperInsert = typeof papers.$inferInsert;
