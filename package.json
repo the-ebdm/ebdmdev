@@ -37,10 +37,15 @@
     "drizzle-orm": "^0.28.5",
     "elysia": "^0.6.16",
     "elysia-autoroutes": "^0.2.2",
+    "fs-file-tree": "^1.1.1",
+    "gpt-3-encoder": "^1.1.4",
     "highlight.js": "^11.8.0",
+    "langchain": "^0.0.145",
     "notion-client": "^6.16.0",
+    "pdf-parse": "^1.1.1",
     "pg": "^8.11.3",
     "pino-pretty": "^10.2.0",
-    "postgres": "^3.3.5"
+    "postgres": "^3.3.5",
+    "redis": "^4.6.8"
   }
 }
