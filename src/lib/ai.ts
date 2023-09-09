@@ -1,10 +1,8 @@
-import postgres from "postgres";
+import { encode } from "gpt-3-encoder";
 
 export interface Query {
   inputs: string;
 }
-
-const queryConnection = postgres(process.env.DATABASE_URL!);
 
 export async function query(data: Query) {
   const response = await fetch(
@@ -17,4 +15,8 @@ export async function query(data: Query) {
   );
   const result = await response.json();
   return result;
+}
+
+export function countTokens(query: string): number {
+  return encode(query).length;
 }
