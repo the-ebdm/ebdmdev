@@ -1,9 +1,18 @@
-name: Fly Deploy
+name: Test and Deploy
 on:
   push:
     branches:
       - master
 jobs:
+  test:
+    name: Test app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+      - run: bun install
+      - run: bun test
+      
   deploy:
     name: Deploy app
     runs-on: ubuntu-latest
