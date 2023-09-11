@@ -1,0 +1,1 @@
+ALTER TABLE "jobs" ALTER COLUMN "due" SET DEFAULT now();

@@ -11,14 +11,28 @@ export type Tag = typeof tags.$inferSelect;
 
 export const jobs = pgTable("jobs", {
   id: serial('id').primaryKey(),
-  type: varchar("type").notNull(),
-  due: timestamp("due").notNull(),
+  typeId: integer("type_id").notNull(),
+  due: timestamp("due").notNull().defaultNow(),
+  payload: json("payload"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   completed: boolean("completed").notNull().default(false),
   completedAt: timestamp("completed_at"),
+  locked: boolean("locked").notNull().default(false),
+  lockedAt: timestamp("locked_at"),
 });
 
 export type Job = typeof jobs.$inferSelect;
+
+export const jobTypes = pgTable("job_types", {
+  id: serial('id').primaryKey(),
+  name: varchar("name").notNull(),
+  description: text("description"),
+  handler: varchar("handler").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export type JobType = typeof jobTypes.$inferSelect;
 
 export const links = pgTable("links", {
   id: serial('id').primaryKey(),

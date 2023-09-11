@@ -1,6 +1,7 @@
 import { NotionAPI } from "notion-client";
 import { Client } from "@notionhq/client"
 import { Link } from "./links";
+import { RedisClientType } from "redis";
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -31,59 +32,53 @@ const recordMapParser = (recordMap: any) => {
   return blocks;
 };
 
-const getPublishedArticles = async (sanitize: boolean = false) => {
-  const { results } = await notion.databases.query({
-    database_id: dbid,
-    filter: {
-      property: "Published",
-      checkbox: {
-        equals: true,
+const getPublishedArticles = async (redis: RedisClientType) => {
+  let results = await redis.get('publishedArticles');
+  if (!results) {
+    results = await notion.databases.query({
+      database_id: dbid,
+      filter: {
+        property: "Published",
+        checkbox: {
+          equals: true,
+        }
       }
-    }
-  });
-  return sanitize ? results.map(item => sanitizePage(item)) : results;
+    }) as any;
+    await redis.set('publishedArticles', JSON.stringify(results));
+  } else {
+    results = JSON.parse(results);
+  }
+  return results;
 }
 
-const getPublishedArticlesWithBlocks = async (sanitize: boolean = false) => {
-  const client = new NotionAPI();
-  client.fetch = properFetch;
-  const results = await getPublishedArticles(sanitize);
-  const pages = await Promise.all(
-    results.map((item) => {
-      return client.getPage(item.id).then((blocks) => {
-        return {
-          ...item,
-          blocks: recordMapParser(blocks),
-        };
-      });
-    })
-  );
+const getPage = async (redis: RedisClientType, pageId: string, sanitize: boolean = false) => {
+  let page = await redis.get(`page:${pageId}`) as any;
+  if (!page) {
+    const client = new NotionAPI({ authToken: process.env.NOTION_TOKEN! });
+    client.fetch = properFetch;
 
-  return sanitize ? pages.map(item => sanitizePage(item)) : pages;
-}
+    const recordMap = await client.getPage(pageId);
+    page = await notion.pages.retrieve({ page_id: pageId });
+    const blocks = await notion.blocks.children.list({ block_id: pageId });
 
-const getPage = async (pageId: string, sanitize: boolean = false, withBlocks: boolean = false) => {
-  const client = new NotionAPI({ authToken: process.env.NOTION_TOKEN! });
-  client.fetch = properFetch;
-
-  const recordMap = await client.getPage(pageId);
-  const page: any = await notion.pages.retrieve({ page_id: pageId });
-  const blocks = await notion.blocks.children.list({ block_id: pageId });
-
-  page.recordMap = recordMapParser(recordMap);
-  page.blocks = await Promise.all(blocks.results.map(async (block: any) => {
-    if (block.type === "bookmark") {
-      const link = new Link(block.bookmark.url);
-      if (await link.check()) {
-        block.bookmark.preview = link;
-      } else {
-        await link.fetchInfo();
-        block.bookmark.preview = link;
-        await link.save();
+    page.recordMap = recordMapParser(recordMap);
+    page.blocks = await Promise.all(blocks.results.map(async (block: any) => {
+      if (block.type === "bookmark") {
+        const link = new Link(block.bookmark.url);
+        if (await link.check()) {
+          block.bookmark.preview = link;
+        } else {
+          await link.fetchInfo();
+          block.bookmark.preview = link;
+          await link.save();
+        }
       }
-    }
-    return block;
-  }));
+      return block;
+    }));
+    await redis.set(`page:${pageId}`, JSON.stringify(page));
+  } else {
+    page = JSON.parse(page);
+  }
 
   return sanitize ? sanitizePage(page) : page;
 }
@@ -100,4 +95,4 @@ const sanitizePage = (page: any) => {
   };
 }
 
-export { getPublishedArticles, getPublishedArticlesWithBlocks, getPage };
+export { getPublishedArticles, getPage };

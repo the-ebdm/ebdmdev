@@ -5,3 +5,15 @@ export const getRedisClient = () => {
     url: process.env.REDIS_URL ?? "redis://localhost:6379",
   });
 }
+
+export const connected = (redis: RedisClientType) => {
+  return new Promise((resolve, reject) => {
+    redis.on("connect", () => {
+      resolve(true);
+    });
+    redis.on("error", (err) => {
+      reject(err);
+    });
+    redis.connect();
+  });
+}

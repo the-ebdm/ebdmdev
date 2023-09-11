@@ -28,7 +28,7 @@ export async function get({ request, set, cookie }: any) {
             </p>
           </>
         ) : <PaperList papers={paperData} />}
-        {/* <PaperUpload /> */}
+        <PaperUpload />
       </>
     )
     if (isHTMX(headers)) {

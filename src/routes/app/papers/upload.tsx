@@ -4,6 +4,7 @@ import { t } from 'elysia'
 import { db } from '../../../index';
 import { FileInsert, PaperInsert, files, papers } from '@db/schema';
 import { getUserFromToken } from '@lib/clerk';
+import { Job } from '@lib/job';
 
 export const post = {
   handler: async ({ body, cookie }: any) => {
@@ -27,7 +28,19 @@ export const post = {
         userId: user.id,
         fileId: fileData.id,
       } as PaperInsert;
-      await db.insert(papers).values(paperEntry);
+      const ids = await db.insert(papers).values(paperEntry).returning();
+      paperEntry.id = ids[0].id;
+
+      // Create process job
+      const job = new Job({
+        typeId: 2,
+        payload: {
+          paperId: paperEntry.id,
+          userId: user.id,
+        }
+      });
+      await job.create(db);
+
       return (
         <p>
           {paperEntry.title} uploaded successfully!

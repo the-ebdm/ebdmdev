@@ -1,3 +1,5 @@
+import { PostgresJsDatabase } from "drizzle-orm/postgres-js";
+
 export interface HTMX {
   method: string;
   path: string;
@@ -11,3 +13,5 @@ export interface NavigationItem {
   href: string;
   htmx?: HTMX;
 }
+
+export interface Database extends PostgresJsDatabase<Record<string, never>> { }

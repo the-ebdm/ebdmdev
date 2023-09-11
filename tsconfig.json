@@ -27,6 +27,7 @@
       "@types": ["src/types.ts"],
       "@middleware/*": ["src/middleware/*"],
       "@lib/*": ["src/lib/*"],
+      "@jobs/*": ["src/jobs/*"],
     }
   }
 }

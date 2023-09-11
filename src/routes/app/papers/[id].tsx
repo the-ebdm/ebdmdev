@@ -10,8 +10,14 @@ import { papers } from '@db/schema';
 import { db } from 'src/index';
 import { eq } from 'drizzle-orm';
 
+import { createClient } from 'redis';
+import { Job } from '@lib/job';
+
 export async function get({ request, params, set, cookie }: any) {
   try {
+    const redis = createClient({
+      url: process.env.REDIS_URL,
+    });
     const headers = request.headers as Headers;
     const user = await getUserFromToken(cookie.__clerk_db_jwt);
     const paperData = await db.select().from(papers).where(eq(papers.id, params.id!));
@@ -20,6 +26,13 @@ export async function get({ request, params, set, cookie }: any) {
     const component = (
       <>
         <h1>{paper.title}</h1>
+
+        {paper.abstract && (
+          <>
+            <h2>Abstract</h2>
+            <p>{paper.abstract}</p>
+          </>
+        )}
       </>
     )
 
@@ -33,14 +46,14 @@ export async function get({ request, params, set, cookie }: any) {
       )
     }
   } catch (error: any) {
-    if (error.errors[0].code === 'client_not_found') {
-      // User needs to sign in
-      return <SignIn />
+    if (error.hasOwnProperty('errors')) {
+      if (error.errors[0].code === 'client_not_found') {
+        // User needs to sign in
+        return <SignIn />
+      }
     }
-    else {
-      console.error(error.errors[0].code);
-      set.status = 500;
-      return <Error error={error} />
-    }
+    console.error(error);
+    set.status = 500;
+    return <Error error={error} />
   }
 }
