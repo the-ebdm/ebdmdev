@@ -10,7 +10,6 @@ export class Cache {
   constructor(key: string) {
     this.key = key;
     this.filePath = process.env.PWD + '/.cache/' + this.key + '.json';
-    console.log(this.filePath)
     this.file = Bun.file(this.filePath)
   }
 
