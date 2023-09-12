@@ -8,7 +8,7 @@ import { isHTMX } from "@lib/html";
 
 export const get = async ({ set, request, params }: any) => {
   const headers = request.headers as Headers;
-  const pageData = await getPage(params.id!, false, true);
+  const pageData = await getPage(params.id!);
   try {
     if (isHTMX(headers)) {
       return (
