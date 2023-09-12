@@ -32,67 +32,40 @@ const recordMapParser = (recordMap: any) => {
   return blocks;
 };
 
-const getPublishedArticles = async (redis: RedisClientType) => {
-  let results = await redis.get('publishedArticles');
-  if (!results) {
-    results = await notion.databases.query({
-      database_id: dbid,
-      filter: {
-        property: "Published",
-        checkbox: {
-          equals: true,
-        }
+export const getPublishedArticles = async () => {
+  return await notion.databases.query({
+    database_id: dbid,
+    filter: {
+      property: "Published",
+      checkbox: {
+        equals: true,
       }
-    }) as any;
-    await redis.set('publishedArticles', JSON.stringify(results));
-  } else {
-    results = JSON.parse(results);
-  }
-  return results;
+    }
+  }) as any;
 }
 
-const getPage = async (redis: RedisClientType, pageId: string, sanitize: boolean = false) => {
-  let page = await redis.get(`page:${pageId}`) as any;
-  if (!page) {
-    const client = new NotionAPI({ authToken: process.env.NOTION_TOKEN! });
-    client.fetch = properFetch;
+export const getPage = async (pageId: string) => {
+  const client = new NotionAPI({ authToken: process.env.NOTION_TOKEN! });
+  client.fetch = properFetch;
 
-    const recordMap = await client.getPage(pageId);
-    page = await notion.pages.retrieve({ page_id: pageId });
-    const blocks = await notion.blocks.children.list({ block_id: pageId });
+  const recordMap = await client.getPage(pageId);
+  const page = await notion.pages.retrieve({ page_id: pageId }) as any;
+  const blocks = await notion.blocks.children.list({ block_id: pageId });
 
-    page.recordMap = recordMapParser(recordMap);
-    page.blocks = await Promise.all(blocks.results.map(async (block: any) => {
-      if (block.type === "bookmark") {
-        const link = new Link(block.bookmark.url);
-        if (await link.check()) {
-          block.bookmark.preview = link;
-        } else {
-          await link.fetchInfo();
-          block.bookmark.preview = link;
-          await link.save();
-        }
+  page.recordMap = recordMapParser(recordMap);
+  page.blocks = await Promise.all(blocks.results.map(async (block: any) => {
+    if (block.type === "bookmark") {
+      const link = new Link(block.bookmark.url);
+      if (await link.check()) {
+        block.bookmark.preview = link;
+      } else {
+        await link.fetchInfo();
+        block.bookmark.preview = link;
+        await link.save();
       }
-      return block;
-    }));
-    await redis.set(`page:${pageId}`, JSON.stringify(page));
-  } else {
-    page = JSON.parse(page);
-  }
+    }
+    return block;
+  }));
 
-  return sanitize ? sanitizePage(page) : page;
+  return page;
 }
-
-const sanitizePage = (page: any) => {
-  const { id, properties, blocks } = page;
-  const { Name, Published } = properties;
-
-  return {
-    id,
-    name: Name.title[0].plain_text,
-    published: Published.checkbox,
-    blocks,
-  };
-}
-
-export { getPublishedArticles, getPage };
