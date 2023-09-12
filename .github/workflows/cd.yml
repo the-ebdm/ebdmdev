@@ -12,6 +12,7 @@ jobs:
         image: postgres:alpine
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -22,6 +23,8 @@ jobs:
       - uses: oven-sh/setup-bun@v1
       - run: bun install
       - run: bun test
+        env:
+          DATABASE_URL: postgres://postgres:postgres@postgres:5432/test
       
   deploy:
     name: Deploy app
