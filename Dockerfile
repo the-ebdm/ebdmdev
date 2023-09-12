@@ -27,7 +27,7 @@ RUN bun install --ci
 # Copy application code
 COPY --link . .
 
-RUN bun tw
+RUN bun run build
 
 # Final stage for app image
 FROM base
