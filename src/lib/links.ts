@@ -1,6 +1,6 @@
-import { db } from '../index';
 import { links } from '../db/schema';
 import { eq } from 'drizzle-orm';
+import { Database } from '@types';
 
 type LinkData = typeof links.$inferInsert;
 
@@ -25,7 +25,7 @@ export class Link {
     this.image = data.image;
   }
 
-  async check() {
+  async check(db: Database) {
     const link = (await db.select().from(links).where(eq(links.url, this.url)).execute())[0];
     if (link) {
       this.id = link.id;
@@ -38,7 +38,7 @@ export class Link {
     return false;
   }
 
-  async save() {
+  async save(db: Database) {
     const linkData: LinkData = {
       title: this.title || '',
       url: this.url,
