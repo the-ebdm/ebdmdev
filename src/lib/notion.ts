@@ -1,6 +1,8 @@
 import { NotionAPI } from "notion-client";
 import { Client } from "@notionhq/client"
 import { Cache } from "./cache";
+import { Link } from "./links";
+import { Database } from "@types";
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -58,7 +60,7 @@ export const getPublishedArticlesWithBlocks = async (sanitize: boolean = false) 
   client.fetch = properFetch;
   const results = await getPublishedArticles(sanitize);
   const pages = await Promise.all(
-    results.map((item) => {
+    results.map((item: any) => {
       return client.getPage(item.id).then((blocks) => {
         return {
           ...item,
@@ -71,7 +73,23 @@ export const getPublishedArticlesWithBlocks = async (sanitize: boolean = false) 
   return pages;
 }
 
-export const getPage = async (pageId: string) => {
+const bookmarkify = async (db: Database, blocks: any) => {
+  return await Promise.all(blocks.results.map(async (block: any) => {
+    if (block.type === "bookmark") {
+      const link = new Link(block.bookmark.url);
+      if (await link.check(db)) {
+        block.bookmark.preview = link;
+      } else {
+        await link.fetchInfo();
+        block.bookmark.preview = link;
+        await link.save(db);
+      }
+    }
+    return block;
+  }));
+}
+
+export const getPage = async (db: Database, pageId: string) => {
   const cache = new Cache(`articles/${pageId}`);
   const cached = await cache.get();
   if (cached !== undefined) {
@@ -85,20 +103,12 @@ export const getPage = async (pageId: string) => {
 
   const recordMap = await client.getPage(pageId);
   const page: any = await notion.pages.retrieve({ page_id: pageId });
-
   const blocks = await notion.blocks.children.list({ block_id: pageId }).then(blocks => {
     return blocks;
   })
 
   page.recordMap = recordMapParser(recordMap);
-  page.blocks = await Promise.all(blocks.results.map(async (block: any) => {
-    if (block.type === "bookmark") {
-      const res = await fetch(`http://api.linkpreview.net/?key=${process.env.LINKPREVIEW_TOKEN}&q=${block.bookmark.url}`);
-      const data = await res.json();
-      block.bookmark.preview = data;
-    }
-    return block;
-  }));
+  page.blocks = await bookmarkify(db, blocks);
 
   return page;
 }

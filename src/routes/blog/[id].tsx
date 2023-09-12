@@ -6,9 +6,11 @@ import Post from "@components/blog/post";
 import { getPage } from "@lib/notion";
 import { isHTMX } from "@lib/html";
 
+import { db } from "../../index";
+
 export const get = async ({ set, request, params }: any) => {
   const headers = request.headers as Headers;
-  const pageData = await getPage(params.id!);
+  const pageData = await getPage(db, params.id!);
   try {
     if (isHTMX(headers)) {
       return (
