@@ -27,6 +27,7 @@ jobs:
       - run: bun install
       - run: bun test
         env:
+          NODE_ENV: "test"
           DATABASE_URL: postgres://postgres:postgres@postgres:5432/test
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
