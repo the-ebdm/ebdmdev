@@ -40,7 +40,7 @@
     "fs-file-tree": "^1.1.1",
     "gpt-3-encoder": "^1.1.4",
     "highlight.js": "^11.8.0",
-    "langchain": "^0.0.145",
+    "langchain": "^0.0.147",
     "notion-client": "^6.16.0",
     "pdf-parse": "^1.1.1",
     "pg": "^8.11.3",
