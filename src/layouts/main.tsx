@@ -22,7 +22,7 @@ const BaseHtml = ({ children, ...attributes }: Attributes) => {
 					<script src="https://unpkg.com/htmx.org@1.9.5"></script>
 					<script src="https://unpkg.com/hyperscript.org@0.9.11"></script>
 					<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
-					<script async src="https://analytics.umami.is/script.js" data-website-id="36d1f2c4-6e3b-46d0-96d5-b85191a0d810"></script>
+					<script async src="https://analytics.umami.is/script.js" data-website-id={process.env.UMAMI_TRACKING_CODE}></script>
 					{`<script>
 						(function(n,i,v,r,s,c,x,z){x = window.AwsRumClient = { q: [], n: n, i: i, v: v, r: r, c: c };window[n]=function(c,p){x.q.push({ c: c, p: p });};z=document.createElement('script');z.async=true;z.src=s;document.head.insertBefore(z,document.head.getElementsByTagName('script')[0]);})(
 						'cwr',
