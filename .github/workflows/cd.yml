@@ -20,20 +20,18 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 5432:5432
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
       - run: bun install
       - name: Setup database
-        run: psql -h postgres -U postgres -c 'CREATE DATABASE "test";'
+        run: psql -h localhost -U postgres -c 'CREATE DATABASE "test";'
         env:
           PGPASSWORD: postgres
       - run: bun test
         env:
           NODE_ENV: "test"
-          DATABASE_URL: postgres://postgres:postgres@postgres:5432/test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
         env:
