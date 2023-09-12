@@ -14,7 +14,11 @@ describe('Job', () => {
 
   beforeAll(async () => {
     // Initialize database connection
-    connection = postgres("postgresql://postgres:postgres@localhost/test");
+    if (process.env.NODE_ENV === 'development') {
+      connection = postgres(process.env.TEST_DATABASE_URL!);
+    } else {
+      connection = postgres(process.env.DATABASE_URL!);
+    }
     db = drizzle(connection);
     // Run migrations
     await migrate(db, { migrationsFolder: './migrations' });

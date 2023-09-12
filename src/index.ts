@@ -8,17 +8,10 @@ import { html } from "@middleware/html";
 import { tracking } from '@middleware/tracking'
 import { timing } from "@middleware/timing";
 
-import { logger } from '@bogeychan/elysia-logger';
-import pretty from 'pino-pretty';
-
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import { Job } from "@lib/job";
-
-const stream = pretty({
-  colorize: true
-});
 
 const queryConnection = postgres(process.env.DATABASE_URL!);
 // Core migration code
@@ -35,12 +28,6 @@ const app = new Elysia()
   .use(cookie())
   .use(html())
   .use(tracking())
-  .use(
-    logger({
-      level: 'error',
-      stream
-    })
-  )
   .use(autoroutes({ routesDir: './routes' }))
   .use(cron({
     name: 'worker',
