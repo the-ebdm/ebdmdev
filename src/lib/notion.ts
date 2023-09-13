@@ -110,5 +110,6 @@ export const getPage = async (db: Database, pageId: string) => {
   page.recordMap = recordMapParser(recordMap);
   page.blocks = await bookmarkify(db, blocks);
 
+  await cache.set(page);
   return page;
 }
