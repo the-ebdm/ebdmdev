@@ -15,3 +15,12 @@ primary_region = "lhr"
   auto_start_machines = true
   min_machines_running = 1
   processes = ["app"]
+  [[http_service.checks]]
+    grace_period = "2s"
+    interval = "10s"
+    method = "GET"
+    timeout = "5s"
+    path = "/"
+
+[deploy]
+  strategy = "canary"
