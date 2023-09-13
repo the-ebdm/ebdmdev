@@ -71,7 +71,12 @@ class FastmailClient {
   identityId: string | null;
   headers: HeadersInit;
 
-  constructor(hostname: string, token: string, username: string, apiUrl: string) {
+  constructor({ hostname, token, username, apiUrl }: {
+    hostname: string,
+    token: string,
+    username: string,
+    apiUrl: string
+  }) {
     this.hostname = hostname;
     this.username = username;
     this.token = token;
@@ -193,18 +198,18 @@ class FastmailClient {
         methodCalls:
           [
             [
-              "Email/query", 
-              { accountId: this.accountId, filter, sort, limit }, 
+              "Email/query",
+              { accountId: this.accountId, filter, sort, limit },
               "a",
             ],
             [
-              "Email/get", 
-              { accountId: this.accountId, properties, "#ids": { resultOf: "a", name: "Email/query", path: "/ids", }, }, 
+              "Email/get",
+              { accountId: this.accountId, properties, "#ids": { resultOf: "a", name: "Email/query", path: "/ids", }, },
               "b",
             ],
             [
-              "Thread/get", 
-              { accountId: this.accountId, "#ids": { "name": "Email/get", "path": "/list/*/threadId", "resultOf": "b" } }, 
+              "Thread/get",
+              { accountId: this.accountId, "#ids": { "name": "Email/get", "path": "/list/*/threadId", "resultOf": "b" } },
               "c"
             ],
           ],
