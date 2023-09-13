@@ -23,14 +23,18 @@ jobs:
         ports:
           - 5432:5432
     steps:
+      # Checkout and setup bun
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
       - run: bun install
+      # Run tests
       - run: bun test
         env:
           NODE_ENV: "test"
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+      # Build container
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
+      - run: flyctl auth
+      - run: flyctl deploy
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
