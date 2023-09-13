@@ -27,7 +27,6 @@ const app = new Elysia()
   .use(timing())
   .use(cookie())
   .use(html())
-  .use(tracking())
   .use(autoroutes({ routesDir: './routes' }))
   .use(cron({
     name: 'worker',
