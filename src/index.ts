@@ -53,3 +53,5 @@ const app = new Elysia()
 console.log(
   `🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`
 );
+
+console.log(`Running in ${process.env.NODE_ENV} mode`)
