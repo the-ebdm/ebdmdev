@@ -1,6 +1,6 @@
 import { Job } from './job';
 import { Database } from '@types';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
