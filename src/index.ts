@@ -11,7 +11,9 @@ import { timing } from "@middleware/timing";
 import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import { eq } from "drizzle-orm";
 import { Job } from "@lib/job";
+import { jobTypes, jobs } from "@db/schema";
 
 const queryConnection = postgres(process.env.DATABASE_URL!);
 // Core migration code
@@ -55,3 +57,52 @@ console.log(
 );
 
 console.log(`Running in ${process.env.NODE_ENV} mode`)
+
+// Create db migrate and seed job types if they don't exist
+
+db.select().from(jobTypes).then(async (results) => {
+  if (results.length === 0) {
+    console.log("Creating job types...");
+    await db.insert(jobTypes).values({
+      name: "migrate",
+      description: "Run database migrations",
+      handler: "db/migrate.ts",
+    })
+    await db.insert(jobTypes).values({
+      name: "seed",
+      description: "Seed the database",
+      handler: "db/seed.ts",
+    })
+  }
+})
+
+// Create db migrate and seed jobs if they don't exist
+
+db.select().from(jobs).then(async (results) => {
+  if (results.length === 0) {
+    console.log("Creating jobs...");
+    // Get seed type
+    const seedType = await db.select().from(jobTypes).where(eq(jobTypes.name, "seed"));
+    if (seedType.length === 0) {
+      throw new Error("Could not find seed job type!");
+    }
+
+    // Create seed job
+    await db.insert(jobs).values({
+      typeId: seedType[0].id,
+      payload: {},
+    })
+
+    // Get migrate type
+    const migrateType = await db.select().from(jobTypes).where(eq(jobTypes.name, "migrate"));
+    if (migrateType.length === 0) {
+      throw new Error("Could not find migrate job type!");
+    }
+
+    // Create migrate job
+    await db.insert(jobs).values({
+      typeId: migrateType[0].id,
+      payload: {},
+    })
+  }
+})
