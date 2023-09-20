@@ -34,7 +34,7 @@ const recordMapParser = (recordMap: any) => {
 };
 
 export const getPublishedArticles = async (sanitize: boolean = false) => {
-  const cache = new Cache("articles/index");
+  const cache = new Cache({ key: "articles/index" });
   const cached = await cache.get();
   if (cached !== undefined) {
     console.log(`Using cached articles`)
@@ -90,7 +90,7 @@ const bookmarkify = async (db: Database, blocks: any) => {
 }
 
 export const getPage = async (db: Database, pageId: string) => {
-  const cache = new Cache(`articles/${pageId}`);
+  const cache = new Cache({ key: `articles/${pageId}`, db });
   const cached = await cache.get();
   if (cached !== undefined) {
     console.log(`Using cached page ${pageId}`)
