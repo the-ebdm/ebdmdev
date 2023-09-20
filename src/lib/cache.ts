@@ -14,7 +14,7 @@ export class Cache {
 
   constructor({ key, db, expiresAt }: { key: string, db?: Database, expiresAt?: Date }) {
     this.key = key;
-    this.filePath = process.env.PWD + '/.cache/' + this.key + '.json';
+    this.filePath = process.env.PWD + '/.cache/' + this.key;
     this.file = Bun.file(this.filePath)
     this.db = db;
     this.expiresAt = expiresAt;
@@ -31,7 +31,7 @@ export class Cache {
     } catch (error) {
       if (this.db) {
         const dbCache = await this.db.select().from(cache).where(eq(cache.key, this.key)).execute();
-        if (dbCache) {
+        if (dbCache.length > 0) {
           const value = dbCache[0].value;
           this.set(value, true);
           return value;
@@ -48,7 +48,7 @@ export class Cache {
     // If fromDb is false, we want to write the value to the database
     if (fromDb === false && this.db) {
       const dbCache = await this.db.select().from(cache).where(eq(cache.key, this.key)).execute();
-      if (dbCache) {
+      if (dbCache.length > 0) {
         await this.db.update(cache).set({ value }).where(eq(cache.key, this.key)).execute();
       } else {
         await this.db.insert(cache).values({ key: this.key, value }).execute();
