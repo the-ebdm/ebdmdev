@@ -98,3 +98,15 @@ export type File = typeof files.$inferSelect;
 export type FileInsert = typeof files.$inferInsert;
 export type Paper = typeof papers.$inferSelect;
 export type PaperInsert = typeof papers.$inferInsert;
+
+export const cache = pgTable("cache", {
+  id: serial('id').primaryKey(),
+  key: varchar("key").notNull().unique(),
+  value: json("value").notNull(),
+  expiresAt: timestamp("expires_at"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export type Cache = typeof cache.$inferSelect;
+export type CacheInsert = typeof cache.$inferInsert;
