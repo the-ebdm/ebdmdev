@@ -30,7 +30,7 @@ export const get = async ({ set, cookie }: any) => {
       </Layout>
     )
   } catch (error: any) {
-    if (error.errors[0].code === 'client_not_found') {
+    if (error.errors[0].code === 'client_not_found' || error.errors[0].code === 'form_param_missing') {
       // User needs to sign in
       return <SignIn />
     } else {
