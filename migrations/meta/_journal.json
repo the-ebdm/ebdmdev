@@ -134,6 +134,20 @@
       "when": 1695244239391,
       "tag": "0018_cuddly_spot",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1695558764189,
+      "tag": "0019_dark_johnny_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "5",
+      "when": 1695559865199,
+      "tag": "0020_quick_junta",
+      "breakpoints": true
     }
   ]
 }
