@@ -70,7 +70,7 @@ export type VisitorInsert = typeof visitors.$inferInsert;
 
 export const files = pgTable("files", {
   id: serial('id').primaryKey(),
-  userId: varchar("user_id"),
+  userId: integer("user_id"),
   name: varchar("name").notNull(),
   path: varchar("path").notNull(),
   size: integer("size").notNull(),
@@ -82,7 +82,7 @@ export const files = pgTable("files", {
 export const papers = pgTable("papers", {
   id: serial('id').primaryKey(),
   fileId: integer("file_id"),
-  userId: varchar("user_id"),
+  userId: integer("user_id"),
   title: varchar("title"),
   authors: json("authors"),
   abstract: text("abstract"),
@@ -110,3 +110,30 @@ export const cache = pgTable("cache", {
 
 export type Cache = typeof cache.$inferSelect;
 export type CacheInsert = typeof cache.$inferInsert;
+
+// Users
+export const users = pgTable("users", {
+  id: serial('id').primaryKey(),
+  email: varchar("email").notNull().unique(),
+  password: varchar("password").notNull(),
+  firstName: varchar("first_name"),
+  lastName: varchar("last_name"),
+  metadata: json("metadata"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export type User = typeof users.$inferSelect;
+export type UserInsert = typeof users.$inferInsert;
+
+// User tokens
+export const userTokens = pgTable("user_tokens", {
+  id: serial('id').primaryKey(),
+  userId: integer("user_id").notNull(),
+  token: varchar("token").notNull().unique(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  expiresAt: timestamp("expires_at").notNull(),
+});
+
+export type UserToken = typeof userTokens.$inferSelect;
+export type UserTokenInsert = typeof userTokens.$inferInsert;
