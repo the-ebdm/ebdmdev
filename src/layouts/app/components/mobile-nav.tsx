@@ -61,11 +61,11 @@ export default function MobileNav({ user }: { user: User }) {
           <div class="pb-2 pt-4">
             <div class="flex items-center px-5">
               <div class="flex-shrink-0">
-                <img class="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
+                <img class="h-10 w-10 rounded-full" src={user.metadata?.imageUrl} alt="" />
               </div>
               <div class="ml-3 min-w-0 flex-1">
                 <div class="truncate text-base font-medium text-gray-800">{user.firstName ? `${user.firstName} ${user.lastName}` : user.username}</div>
-                <div class="truncate text-sm font-medium text-gray-500">{user.emailAddresses[0].emailAddress}</div>
+                <div class="truncate text-sm font-medium text-gray-500">{user.email}</div>
               </div>
               <button type="button" class="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                 <span class="absolute -inset-1.5"></span>

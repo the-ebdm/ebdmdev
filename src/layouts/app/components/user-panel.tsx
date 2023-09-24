@@ -21,7 +21,7 @@ export default function UserPanel({ user }: { user: User }) {
             class="relative flex rounded-full bg-white text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
             <span class="absolute -inset-1.5"></span>
             <span class="sr-only">Open user menu</span>
-            <img class="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+            <img class="h-8 w-8 rounded-full" src={user.metadata?.imageUrl} alt="" />
           </button>
         </div>
         {/* Dropdown menu, show/hide based on menu state.
