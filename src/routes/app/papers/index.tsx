@@ -10,11 +10,12 @@ import { papers } from '@db/schema';
 import { db } from 'src/index';
 import PaperUpload from '@components/papers/upload';
 import PaperList from '@components/papers/list';
+import { authenticate } from '@lib/auth';
 
-export async function get({ request, set, cookie }: any) {
+export async function get({ request, set, cookie: { token } }: any) {
   try {
     const headers = request.headers as Headers;
-    const user = await getUserFromToken(cookie.__clerk_db_jwt);
+    const user = await authenticate(db, token);
     const paperData = await db.select().from(papers);
 
     const component = (

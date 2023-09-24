@@ -5,11 +5,12 @@ import { db } from '../../../index';
 import { FileInsert, PaperInsert, files, papers } from '@db/schema';
 import { getUserFromToken } from '@lib/clerk';
 import { Job } from '@lib/job';
+import { authenticate } from '@lib/auth';
 
 export const post = {
   handler: async ({ body, cookie }: any) => {
     try {
-      const user = await getUserFromToken(cookie.__clerk_db_jwt);
+      const user = await authenticate(db, cookie.token);
       // Save file to disk
       const path = `${process.env.PWD}/uploads/${body.name}`
       await Bun.write(path, body.file);
