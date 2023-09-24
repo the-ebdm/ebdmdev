@@ -84,14 +84,6 @@ export default function App({ children, title, user }: { children: any, title: s
           </div>
         </footer>
       </div>
-      <script
-        async
-        crossorigin="anonymous"
-        data-clerk-publishable-key={process.env.CLERK_PUB_KEY}
-        onload="window.Clerk.load()"
-        src={process.env.CLERK_URL}
-        type="text/javascript">
-      </script>
     </Layout>
   )
 }
