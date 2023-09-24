@@ -1,13 +1,13 @@
 import html from '@kitajs/html'
 import Layout from '@layouts/app'
+import MainLayout from '@layouts/main'
 import Error from '@components/error'
+import { authenticate } from '@lib/auth'
+import { db } from 'src'
 
-import { getUserFromToken } from '@lib/clerk';
-import SignIn from '@components/auth/signIn';
-
-export const get = async ({ set, cookie }: any) => {
+export const get = async ({ set, cookie: { token } }: { set: any, cookie: { token: string } }) => {
   try {
-    const user = await getUserFromToken(cookie.__clerk_db_jwt);
+    const user = await authenticate(db, token);
 
     return (
       <Layout title="EBDM.DEV / Home" user={user}>
@@ -30,9 +30,9 @@ export const get = async ({ set, cookie }: any) => {
       </Layout>
     )
   } catch (error: any) {
+    console.log(error)
     if (error.errors[0].code === 'client_not_found' || error.errors[0].code === 'form_param_missing') {
-      // User needs to sign in
-      return <SignIn />
+      set.redirect = '/app/auth/signin';
     } else {
       console.error(error.errors[0].code);
       set.status = 500;
