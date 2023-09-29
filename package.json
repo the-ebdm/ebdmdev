@@ -28,7 +28,7 @@
     "@elysiajs/cookie": "^0.6.1",
     "@elysiajs/cron": "^0.6.0",
     "@elysiajs/static": "^0.6.0",
-    "@kitajs/html": "^2.0.0",
+    "@kitajs/html": "^3.0.0",
     "@libsql/client": "^0.3.2",
     "@notionhq/client": "^2.2.13",
     "@tailwindcss/forms": "^0.5.6",
