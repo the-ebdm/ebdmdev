@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@elysiajs/cookie": "^0.6.1",
-    "@elysiajs/cron": "^0.6.0",
+    "@elysiajs/cron": "^0.8.0",
     "@elysiajs/static": "^0.6.0",
     "@kitajs/html": "^2.0.0",
     "@libsql/client": "^0.3.2",
